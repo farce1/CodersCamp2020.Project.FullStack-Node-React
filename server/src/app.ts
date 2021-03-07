@@ -43,16 +43,10 @@ class App {
   }
 
   private connectToTheDatabase() {
-    // const {
-    //   MONGO_USER,
-    //   MONGO_PASSWORD,
-    //   MONGO_PATH,
-    // } = process.env;
     const mongoDB = process.env.DEV_DB_URL;
     mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-    // mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`);
   }
 }
 

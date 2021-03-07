@@ -1,8 +1,8 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import Controller from '../../interfaces/controller.interface';
-import authMiddleware from '../../middleware/auth.middleware';
-import userModel from './user.model';
-import UserNotFoundException from '../../exceptions/UserNotFoundException';
+import Controller from '../interfaces/controller.interface';
+import authMiddleware from '../middleware/auth.middleware';
+import userModel from '../models/user.model';
+import UserNotFoundException from '../exceptions/UserNotFoundException';
 
 class UserController implements Controller {
   public path = '/users';

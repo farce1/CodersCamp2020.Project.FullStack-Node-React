@@ -5,10 +5,7 @@ interface User {
   fullName: string;
   email: string;
   password: string;
-  address?: {
-    street: string,
-    city: string,
-  };
+  address?: Address;
 }
 
 export default User;

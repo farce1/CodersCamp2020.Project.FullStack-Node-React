@@ -3,14 +3,14 @@ import { Request, Response, NextFunction, Router } from 'express';
 import * as jwt from 'jsonwebtoken';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import Controller from '../interfaces/controller.interface';
-import DataStoredInToken from '../interfaces/dataStoredInToken';
+import DataStoredInTokenInterface from '../interfaces/dataStoredInToken.interface';
 import TokenData from '../interfaces/tokenData.interface';
 import validationMiddleware from '../middleware/validation.middleware';
-import CreateUserDto from '../controllers/user/user.dto';
-import User from '../controllers/user/user.interface';
-import userModel from '../controllers/user/user.model';
-import AuthenticationService from './authentication.service';
-import LogInDto from './logIn.dto';
+import CreateUserDto from '../dto/user.dto';
+import User from '../interfaces/user.interface';
+import userModel from '../models/user.model';
+import AuthenticationService from '../services/authentication.service';
+import LogInDto from '../dto/logIn.dto';
 
 class AuthenticationController implements Controller {
   public path = '/auth';
@@ -71,7 +71,7 @@ class AuthenticationController implements Controller {
   private createToken(user: User): TokenData {
     const expiresIn = 60 * 60; // an hour
     const secret = process.env.JWT_SECRET;
-    const dataStoredInToken: DataStoredInToken = {
+    const dataStoredInToken: DataStoredInTokenInterface = {
       _id: user._id,
     };
     return {
