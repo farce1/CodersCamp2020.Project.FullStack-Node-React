@@ -11,28 +11,30 @@ describe('The AuthenticationService', () => {
         expiresIn: 1,
       };
       const authenticationService = new AuthenticationService();
-      expect(typeof authenticationService.createCookie(tokenData))
-        .toEqual('string');
+      expect(typeof authenticationService.createCookie(tokenData)).toEqual('string');
     });
   });
   describe('when registering a user', () => {
     describe('if the email is already taken', () => {
       it('should throw an error', async () => {
         const userData: CreateUserDto = {
-          name: 'John Smith',
+          firstName: 'John',
+          lastName: 'Smith',
           email: 'john@smith.com',
           password: 'strongPassword123',
         };
         const authenticationService = new AuthenticationService();
         authenticationService.user.findOne = jest.fn().mockReturnValue(Promise.resolve(userData));
-        await expect(authenticationService.register(userData))
-          .rejects.toMatchObject(new UserWithThatEmailAlreadyExistsException(userData.email));
+        await expect(authenticationService.register(userData)).rejects.toMatchObject(
+          new UserWithThatEmailAlreadyExistsException(userData.email)
+        );
       });
     });
     describe('if the email is not taken', () => {
       it('should not throw an error', async () => {
         const userData: CreateUserDto = {
-          name: 'John Smith',
+          firstName: 'John',
+          lastName: 'Smith',
           email: 'john@smith.com',
           password: 'strongPassword123',
         };
@@ -43,8 +45,7 @@ describe('The AuthenticationService', () => {
           ...userData,
           _id: 0,
         });
-        await expect(authenticationService.register(userData))
-          .resolves.toBeDefined();
+        await expect(authenticationService.register(userData)).resolves.toBeDefined();
       });
     });
   });

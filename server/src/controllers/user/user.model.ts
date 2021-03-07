@@ -7,12 +7,31 @@ const addressSchema = new mongoose.Schema({
   street: String,
 });
 
+const schemaTimeStamps = new mongoose.Schema({
+  timestamps: {
+    createdAt: String,
+    updatedAt: String,
+  },
+});
+
 const userSchema = new mongoose.Schema(
   {
-    address: addressSchema,
-    email: String,
+    id: String,
     firstName: String,
     lastName: String,
+    age: Number,
+    email: String,
+    address: addressSchema,
+    avatarUrl: String,
+    accountTimeStamps: schemaTimeStamps,
+    userRole: Number,
+    verified: Boolean,
+    blocked: Boolean,
+    ownedRestaurants: Array,
+    favourites: Array,
+    comments: Array,
+    hash: String,
+    salt: String,
     password: {
       type: String,
       get: (): undefined => undefined,

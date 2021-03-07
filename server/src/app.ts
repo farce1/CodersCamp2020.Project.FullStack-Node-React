@@ -1,7 +1,7 @@
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as express from 'controllers/user/controllers/post/express';
-import * as mongoose from 'controllers/restaurants/controllers/user/controllers/post/mongoose';
+import * as express from 'express';
+import * as mongoose from 'mongoose';
 import Controller from './interfaces/controller.interface';
 import errorMiddleware from './middleware/error.middleware';
 
@@ -43,12 +43,16 @@ class App {
   }
 
   private connectToTheDatabase() {
-    const {
-      MONGO_USER,
-      MONGO_PASSWORD,
-      MONGO_PATH,
-    } = process.env;
-    mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`);
+    // const {
+    //   MONGO_USER,
+    //   MONGO_PASSWORD,
+    //   MONGO_PATH,
+    // } = process.env;
+    const mongoDB = process.env.DEV_DB_URL;
+    mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+    const db = mongoose.connection;
+    db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+    // mongoose.connect(`mongodb://${MONGO_USER}:${MONGO_PASSWORD}${MONGO_PATH}`);
   }
 }
 

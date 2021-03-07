@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcrypt';
-import { Request, Response, NextFunction, Router } from 'controllers/user/controllers/post/express';
+import { Request, Response, NextFunction, Router } from 'express';
 import * as jwt from 'jsonwebtoken';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import Controller from '../interfaces/controller.interface';
@@ -31,16 +31,13 @@ class AuthenticationController implements Controller {
   private registration = async (request: Request, response: Response, next: NextFunction) => {
     const userData: CreateUserDto = request.body;
     try {
-      const {
-        cookie,
-        user,
-      } = await this.authenticationService.register(userData);
+      const { cookie, user } = await this.authenticationService.register(userData);
       response.setHeader('Set-Cookie', [cookie]);
       response.send(user);
     } catch (error) {
       next(error);
     }
-  }
+  };
 
   private loggingIn = async (request: Request, response: Response, next: NextFunction) => {
     const logInData: LogInDto = request.body;
@@ -48,7 +45,7 @@ class AuthenticationController implements Controller {
     if (user) {
       const isPasswordMatching = await bcrypt.compare(
         logInData.password,
-        user.get('password', null, { getters: false }),
+        user.get('password', null, { getters: false })
       );
       if (isPasswordMatching) {
         const tokenData = this.createToken(user);
@@ -60,12 +57,12 @@ class AuthenticationController implements Controller {
     } else {
       next(new WrongCredentialsException());
     }
-  }
+  };
 
   private loggingOut = (request: Request, response: Response) => {
     response.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
     response.send(200);
-  }
+  };
 
   private createCookie(tokenData: TokenData) {
     return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn}`;
@@ -82,7 +79,6 @@ class AuthenticationController implements Controller {
       token: jwt.sign(dataStoredInToken, secret, { expiresIn }),
     };
   }
-
 }
 
 export default AuthenticationController;

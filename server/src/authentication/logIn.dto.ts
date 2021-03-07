@@ -1,4 +1,5 @@
-import { IsString } from 'controllers/user/controllers/post/class-validator';
+// @ts-ignore
+import { IsString } from 'class-validator';
 
 class LogInDto {
   @IsString()

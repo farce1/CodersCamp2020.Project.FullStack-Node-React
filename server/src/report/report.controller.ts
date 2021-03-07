@@ -1,4 +1,4 @@
-import { Request, Response, Router } from 'controllers/user/controllers/post/express';
+import { Request, Response, Router } from 'express';
 import Controller from '../interfaces/controller.interface';
 import userModel from '../controllers/user/user.model';
 
@@ -16,58 +16,55 @@ class ReportController implements Controller {
   }
 
   private generateReport = async (request: Request, response: Response) => {
-    const usersByCountries = await this.user.aggregate(
-      [
-        {
-          $match: {
-            'address.country': {
-              $exists: true,
-            },
+    const usersByCountries = await this.user.aggregate([
+      {
+        $match: {
+          'address.country': {
+            $exists: true,
           },
         },
-        {
-          $group: {
-            _id: {
-              country: '$address.country',
-            },
-            users: {
-              $push: {
-                _id: '$_id',
-                name: '$name',
-              },
-            },
-            count: {
-              $sum: 1,
+      },
+      {
+        $group: {
+          _id: {
+            country: '$address.country',
+          },
+          users: {
+            $push: {
+              _id: '$_id',
+              name: '$name',
             },
           },
-        },
-        {
-          $lookup: {
-            from: 'posts',
-            localField: 'users._id',
-            foreignField: 'author',
-            as: 'articles',
+          count: {
+            $sum: 1,
           },
         },
-        {
-          $addFields: {
-            amountOfArticles: {
-              $size: '$articles',
-            },
+      },
+      {
+        $lookup: {
+          from: 'posts',
+          localField: 'users._id',
+          foreignField: 'author',
+          as: 'articles',
+        },
+      },
+      {
+        $addFields: {
+          amountOfArticles: {
+            $size: '$articles',
           },
         },
-        {
-          $sort: {
-            amountOfArticles: 1,
-          },
+      },
+      {
+        $sort: {
+          amountOfArticles: 1,
         },
-      ],
-    );
+      },
+    ]);
     response.send({
       usersByCountries,
     });
-  }
-
+  };
 }
 
 export default ReportController;
