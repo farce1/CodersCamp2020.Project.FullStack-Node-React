@@ -7,6 +7,7 @@ import RestaurantAlreadyExistsException from '../exceptions/RestaurantAlreadyExi
 import addressModel from '../models/address.model';
 import validationMiddleware from '../middleware/validation.middleware';
 import CreateRestaurantDto from '../dto/restaurant.dto';
+import WrongCredentialsException from 'exceptions/WrongCredentialsException';
 
 class RestaurantController implements Controller {
   public path = '/restaurants';
@@ -22,6 +23,8 @@ class RestaurantController implements Controller {
     this.router.get(`${this.path}/:id`, this.getRestaurantById);
     this.router.get(`${this.path}`, this.getRestaurants);
     this.router.post(`${this.path}`, authMiddleware, validationMiddleware(CreateRestaurantDto), this.createRestaurant);
+    this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteRestaurant);
+    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateRestaurant);
   }
 
   private createRestaurant = async (request: Request, response: Response, next: NextFunction) => {
@@ -63,6 +66,33 @@ class RestaurantController implements Controller {
     const restaurant = await restaurantQuery;
     if (restaurant) {
       response.send(restaurant);
+    } else {
+      next(new RestaurantNotFoundException(id));
+    }
+  };
+
+  private deleteRestaurant = async (request: Request, response: Response, next: NextFunction) => {
+    const id = request.params.id;
+    const restaurant = await this.restaurant.findById(id);
+    if (restaurant) {
+      await this.restaurant.findByIdAndDelete(id);
+      response.send(restaurant);
+    } else {
+      next(new RestaurantNotFoundException(id));
+    }
+  };
+
+  private updateRestaurant = async (request: Request, response: Response, next: NextFunction) => {
+    const id = request.params.id;
+    const restaurant = await this.restaurant.findById(id);
+    if (restaurant) {
+      this.restaurant.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
+        if (err) {
+          next(new WrongCredentialsException());
+        } else {
+          response.send(data);
+        }
+      });
     } else {
       next(new RestaurantNotFoundException(id));
     }
