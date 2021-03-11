@@ -3,8 +3,9 @@ import Controller from '../interfaces/controller.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import userModel from '../models/user.model';
 import UserNotFoundException from '../exceptions/UserNotFoundException';
-import UserWithThatEmailAlreadyExistsException from 'exceptions/UserWithThatEmailAlreadyExistsException';
-import WrongCredentialsException from 'exceptions/WrongCredentialsException';
+import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
+import WrongCredentialsException from '../exceptions/WrongCredentialsException';
+import NotAuthorizedException from '../exceptions/NotAuthorizedException';
 
 class UserController implements Controller {
   public path = '/users';
@@ -62,6 +63,9 @@ class UserController implements Controller {
     const id = request.params.id;
     const user = await this.user.findById(id);
     if (user) {
+      // if(request.user._id.toString() !== id.toString()) {
+      // 	next(new NotAuthorizedException())
+      // }
       await this.user.findByIdAndDelete(id);
       response.send(user);
     } else {
@@ -73,6 +77,9 @@ class UserController implements Controller {
     const id = request.params.id;
     const user = await this.user.findById(id);
     if (user) {
+      // if(request.user._id.toString() !== id.toString()) {
+      // 	next(new NotAuthorizedException())
+      // }
       this.user.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
         if (err) {
           next(new WrongCredentialsException());

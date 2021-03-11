@@ -7,7 +7,7 @@ import RestaurantAlreadyExistsException from '../exceptions/RestaurantAlreadyExi
 import addressModel from '../models/address.model';
 import validationMiddleware from '../middleware/validation.middleware';
 import CreateRestaurantDto from '../dto/restaurant.dto';
-import WrongCredentialsException from 'exceptions/WrongCredentialsException';
+import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 
 class RestaurantController implements Controller {
   public path = '/restaurants';
@@ -75,6 +75,9 @@ class RestaurantController implements Controller {
     const id = request.params.id;
     const restaurant = await this.restaurant.findById(id);
     if (restaurant) {
+      // if(request.user._id.toString() !== id.toString()) {
+      // 	next(new NotAuthorizedException())
+      // }
       await this.restaurant.findByIdAndDelete(id);
       response.send(restaurant);
     } else {
