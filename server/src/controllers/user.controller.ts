@@ -3,9 +3,8 @@ import Controller from '../interfaces/controller.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import userModel from '../models/user.model';
 import UserNotFoundException from '../exceptions/UserNotFoundException';
-import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
-import NotAuthorizedException from '../exceptions/NotAuthorizedException';
+import permissionMiddleware from "../middleware/permission.middleware";
 
 class UserController implements Controller {
   public path = '/users';
@@ -19,9 +18,8 @@ class UserController implements Controller {
   private initializeRoutes() {
     this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
     this.router.get(`${this.path}`, authMiddleware, this.getUsers);
-    // this.router.post(`${this.path}`, this.createUser);
+    this.router.patch(`${this.path}/:id`, authMiddleware ,permissionMiddleware, this.updateUser);
     this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteUser);
-    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateUser);
   }
 
   private getUserById = async (request: Request, response: Response, next: NextFunction) => {
@@ -60,20 +58,12 @@ class UserController implements Controller {
 
   private updateUser = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
-    const user = await this.user.findById(id);
-    if (user) {
-      // if(request.user._id.toString() !== id.toString()) {
-      // 	next(new NotAuthorizedException())
-      // }
-      this.user.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
-        if (err) {
-          next(new WrongCredentialsException());
-        } else {
-          response.send(data);
-        }
-      });
-    } else {
-      next(new UserNotFoundException(id));
+    try {
+      await this.user.findByIdAndUpdate(id, { ...request.body }, (err, data)=>{
+        !err ? response.send(data) : next(new UserNotFoundException(id));
+      })
+    } catch{
+      next(new WrongCredentialsException())
     }
   };
 }
