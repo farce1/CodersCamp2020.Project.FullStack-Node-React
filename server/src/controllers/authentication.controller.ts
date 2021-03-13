@@ -12,6 +12,7 @@ import userModel from '../models/user.model';
 import AuthenticationService from '../services/authentication.service';
 import LogInDto from '../dto/logIn.dto';
 
+
 class AuthenticationController implements Controller {
   public path = '/auth';
   public router = Router();
