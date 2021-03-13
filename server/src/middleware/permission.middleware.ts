@@ -4,7 +4,12 @@ import UserDoesNotHavePermissionToExecutedRequestedData from '../exceptions/User
 
 async function permissionMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
   const authenticatedUser = String(request.user._id);
-  authenticatedUser === request.params.id ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+  const authenticatedUserRole = request.user.userRole;
+  if (authenticatedUserRole === 2) {
+    next();
+  } else {
+    authenticatedUser === request.params.id ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+  }
 }
 
 export default permissionMiddleware;
