@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
-import User from '../interfaces/user.interface';
-import addressModel, {addressSchema} from "./address.model";
+import User, { UserAvatarUrl } from '../interfaces/user.interface';
+import addressModel, { addressSchema } from './address.model';
 
 const userSchema = new mongoose.Schema(
   {
@@ -10,15 +10,33 @@ const userSchema = new mongoose.Schema(
     age: Number,
     email: String,
     address: addressSchema,
-    avatarUrl: String,
-    userRole: Number,
-    verified: Boolean,
-    blocked: Boolean,
+    avatarUrl: {
+      type: String,
+      default(val: UserAvatarUrl): UserAvatarUrl {
+        return null;
+      },
+    },
+    userRole: {
+      type: Number,
+      default(val: number): number {
+        return 0;
+      },
+    },
+    verified: {
+      type: Boolean,
+      default(val: boolean): boolean {
+        return false;
+      },
+    },
+    blocked: {
+      type: Boolean,
+      default(val: boolean): boolean {
+        return false;
+      },
+    },
     ownedRestaurants: Array,
     favourites: Array,
     comments: Array,
-    hash: String,
-    salt: String,
     password: {
       type: String,
       get: (): undefined => undefined,

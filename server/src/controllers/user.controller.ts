@@ -19,7 +19,7 @@ class UserController implements Controller {
   private initializeRoutes() {
     this.router.get(`${this.path}/:id`, authMiddleware, this.getUserById);
     this.router.get(`${this.path}`, authMiddleware, this.getUsers);
-    this.router.post(`${this.path}`, this.createUser);
+    // this.router.post(`${this.path}`, this.createUser);
     this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteUser);
     this.router.patch(`${this.path}/:id`, authMiddleware, this.updateUser);
   }
@@ -39,21 +39,6 @@ class UserController implements Controller {
     const users = await this.user.find();
     if (users) {
       response.send(users);
-    } else {
-      next();
-    }
-  };
-
-  private createUser = async (request: Request, response: Response, next: NextFunction) => {
-    if (await this.user.findOne({ email: request.body.email })) {
-      next(new UserWithThatEmailAlreadyExistsException(request.body.email));
-    }
-    const user = await this.user.create({
-      ...request.body,
-    });
-
-    if (user) {
-      response.send(user);
     } else {
       next();
     }

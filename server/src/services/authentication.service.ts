@@ -20,7 +20,7 @@ class AuthenticationService {
       ...userData.address,
     });
 
-    const hashedPassword = await bcrypt.hash(userData.password, process.env.SALT);
+    const hashedPassword = await bcrypt.hash(userData.password, +process.env.SALT);
     const user = await this.user.create({
       ...userData,
       address,
