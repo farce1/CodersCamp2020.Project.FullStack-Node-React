@@ -4,7 +4,7 @@ import UserDoesNotHavePermissionToExecutedRequestedData from '../exceptions/User
 
 async function adminAuth(request: RequestWithUser, response: Response, next: NextFunction) {
   const authenticatedUserRole = request.user.userRole;
-  authenticatedUserRole === 2 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+  authenticatedUserRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
 }
 
 export default adminAuth;
