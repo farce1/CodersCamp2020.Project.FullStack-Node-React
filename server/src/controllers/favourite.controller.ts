@@ -62,7 +62,6 @@ class FavouriteController implements Controller {
       } else {
         const index = favourites.findIndex((el:any) => el._id === restaurantId);
         favourites.splice(index, 1);
-        console.log(favourites);
         await user.save();
         response.send(200);
       }
