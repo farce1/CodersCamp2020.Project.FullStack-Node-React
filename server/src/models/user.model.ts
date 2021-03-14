@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     userRole: {
       type: Number,
       default(val: number): number {
-        return 0;
+        return 2;
       },
     },
     verified: {
