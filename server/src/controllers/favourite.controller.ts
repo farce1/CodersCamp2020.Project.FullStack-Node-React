@@ -6,7 +6,7 @@ import RestaurantAlreadyInFavourites from '../exceptions/RestaurantAlreadyInFavo
 import RestaurantNotFoundException from '../exceptions/RestaurantNotFoundException';
 import UserNotFoundException from '../exceptions/UserNotFoundException';
 import RestaurantIsNotonTheList from '../exceptions/RestaurantIsNotOnTheList';
-import authMiddleware from '../middleware/auth.middleware';
+import permissionMiddleware from '../middleware/permission.middleware';
 
 class FavouriteController implements Controller {
   public path = '/favourites';
@@ -19,8 +19,8 @@ class FavouriteController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:userId`, authMiddleware, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, authMiddleware, this.addOrRemoveRestaurantToFavourites);
+    this.router.get(`${this.path}/:userId`, permissionMiddleware, this.getFavourites);
+    this.router.put(`${this.path}/:userId`, permissionMiddleware, this.addOrRemoveRestaurantToFavourites);
   }
 
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
