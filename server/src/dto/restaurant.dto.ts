@@ -27,15 +27,15 @@ class CreateRestaurantDto {
 
   @IsOptional()
   @IsArray()
-  public cuisine: [];
+  public cuisine: string[];
 
   @IsOptional()
   @IsArray()
-  public socials: [];
+  public socials: string[];
 
   @IsOptional()
   @IsArray()
-  public comments: [];
+  public comments: string[];
 
   @IsOptional()
   @IsNumber()
