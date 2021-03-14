@@ -5,6 +5,8 @@ import restaurantModel from '../models/restaurant.model';
 import RestaurantAlreadyInFavourites from '../exceptions/RestaurantAlreadyInFavourites';
 import RestaurantNotFoundException from '../exceptions/RestaurantNotFoundException';
 import UserNotFoundException from '../exceptions/UserNotFoundException';
+import RestaurantIsNotonTheList from '../exceptions/RestaurantIsNotOnTheList';
+import authMiddleware from '../middleware/auth.middleware';
 
 class FavouriteController implements Controller {
   public path = '/favourites';
@@ -17,12 +19,12 @@ class FavouriteController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:userId`, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, this.addRestaurantToFavourites);
+    this.router.get(`${this.path}/:userId`, authMiddleware, this.getFavourites);
+    this.router.put(`${this.path}/:userId`, authMiddleware, this.addOrRemoveRestaurantToFavourites);
   }
 
-  private addRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
-    const userId = request.params.userId;
+  private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
+    const userId: string = request.params.userId;
     if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
       next(new UserNotFoundException(userId))
     }
@@ -32,7 +34,7 @@ class FavouriteController implements Controller {
       next(new UserNotFoundException(userId))
     }
 
-    const restaurantId = request.body.restaurantId;
+    const restaurantId: string = request.body.restaurantId;
     if (!restaurantId.match(/^[0-9a-fA-F]{24}$/)) {
       next(new RestaurantNotFoundException(restaurantId));
     }
@@ -42,13 +44,28 @@ class FavouriteController implements Controller {
       next(new RestaurantNotFoundException(restaurantId));
     }
 
-    const favourites = user.get('favourites', null, {getters: false})
-    if (favourites.includes(restaurantId)) {
+    const favourites = user.get('favourites', null, {getters: false});
+    const operation: string = request.body.operation;
+
+    if (operation === "add") {
+      if (favourites.includes(restaurantId)) {
       next(new RestaurantAlreadyInFavourites(restaurantId));
-    } else {
-      favourites.push(restaurantId);
-      await user.save();
-      response.send(200);
+      } else {
+        favourites.push(restaurantId);
+        await user.save();
+        response.send(restaurant);
+      }
+    }
+    if (operation === "remove") {
+      if (!favourites.includes(restaurantId)) {
+        next(new RestaurantIsNotonTheList(restaurantId));
+      } else {
+        const index = favourites.findIndex((el:any) => el._id === restaurantId);
+        favourites.splice(index, 1);
+        console.log(favourites);
+        await user.save();
+        response.send(200);
+      }
     }
   }
 

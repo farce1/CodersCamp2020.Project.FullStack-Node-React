@@ -19,8 +19,8 @@ class AuthenticationService {
     const address = await this.address.create({
       ...userData.address,
     });
-    const salt = parseInt(process.env.SALT, 10);
-    const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+    const hashedPassword = await bcrypt.hash(userData.password, +process.env.SALT);
     const user = await this.user.create({
       ...userData,
       address,
