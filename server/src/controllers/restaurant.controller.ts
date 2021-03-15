@@ -7,7 +7,9 @@ import addressModel from '../models/address.model';
 import validationMiddleware from '../middleware/validation.middleware';
 import CreateRestaurantDto from '../dto/restaurant.dto';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
-import restaurantValidation from '../middleware/restaurantValidation.middleware';
+import restaurantUpdateMiddleware from '../middleware/restaurantUpdateMiddleware';
+import restaurantDeleteMiddleware from '../middleware/restaurantDeleteMiddleware';
+import restaurantCreateMiddleware from '../middleware/restaurantCreateMiddleware.middleware';
 
 class RestaurantController implements Controller {
   public path = '/restaurants';
@@ -26,11 +28,11 @@ class RestaurantController implements Controller {
       `${this.path}`,
       authMiddleware,
       validationMiddleware(CreateRestaurantDto),
-      restaurantValidation,
+      restaurantCreateMiddleware,
       this.createRestaurant
     );
-    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateRestaurant);
-    this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteRestaurant);
+    this.router.patch(`${this.path}/:id`, authMiddleware, restaurantUpdateMiddleware, this.updateRestaurant);
+    this.router.delete(`${this.path}/:id`, authMiddleware, restaurantDeleteMiddleware, this.deleteRestaurant);
   }
 
   private getRestaurants = async (request: Request, response: Response, next: NextFunction) => {
@@ -64,34 +66,25 @@ class RestaurantController implements Controller {
 
   private updateRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
-    const restaurant = await this.restaurant.findById(id);
-    if (restaurant) {
-      this.restaurant.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
-        if (err) {
-          next(new WrongCredentialsException());
-        } else {
-          response.send(data);
-        }
+    try {
+      await this.restaurant.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
+        !err ? response.send(data) : next(new RestaurantNotFoundException(id));
       });
-    } else {
+    } catch {
       next(new RestaurantNotFoundException(id));
     }
   };
 
   private deleteRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
-    const restaurant = await this.restaurant.findById(id);
-    if (restaurant) {
-      // if(request.user._id.toString() !== id.toString()) {
-      // 	next(new NotAuthorizedException())
-      // }
-      await this.restaurant.findByIdAndDelete(id);
-      response.send(restaurant);
-    } else {
-      next(new RestaurantNotFoundException(id));
+    try {
+      await this.restaurant.findByIdAndDelete(id, { ...request.body }, (err, restaurant) => {
+        !err ? response.send(restaurant) : next(new RestaurantNotFoundException(id));
+      });
+    } catch {
+      next(new WrongCredentialsException());
     }
   };
-
 }
 
 export default RestaurantController;
