@@ -6,7 +6,8 @@ import UserNotFoundException from '../exceptions/UserNotFoundException';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import permissionMiddleware from '../middleware/permission.middleware';
 import UserDoesNotHavePermissionToExecutedRequestedData from '../exceptions/UserDoesNotHavePermissionToExecutedRequestedData';
-import adminAuth from '../middleware/adminAuth.middleware';
+import adminAuth from '../middleware/adminAuthMiddleware.middleware';
+import adminAuthMiddleware from "../middleware/adminAuthMiddleware.middleware";
 
 class UserController implements Controller {
   public path = '/users';
@@ -18,8 +19,8 @@ class UserController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, authMiddleware, adminAuth, this.getUsers);
-    this.router.get(`${this.path}/:id`, authMiddleware, adminAuth, this.getUserById);
+    this.router.get(`${this.path}`, authMiddleware, adminAuthMiddleware, this.getUsers);
+    this.router.get(`${this.path}/:id`, authMiddleware, adminAuthMiddleware, this.getUserById);
     this.router.patch(`${this.path}/:id`, authMiddleware, permissionMiddleware, this.updateUser);
     this.router.delete(`${this.path}/:id`, authMiddleware, permissionMiddleware, this.deleteUser);
   }

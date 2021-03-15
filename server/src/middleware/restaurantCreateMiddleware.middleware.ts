@@ -3,7 +3,7 @@ import { NextFunction, Response } from 'express';
 import RestaurantAlreadyExistsException from '../exceptions/RestaurantAlreadyExistsException';
 import restaurantModel from '../models/restaurant.model';
 
-async function restaurantValidation(request: RequestWithUser, response: Response, next: NextFunction) {
+async function restaurantCreateMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
   const restaurant = restaurantModel;
 
   const addressQuery = request.body.address.street;
@@ -21,4 +21,4 @@ async function restaurantValidation(request: RequestWithUser, response: Response
   next();
 }
 
-export default restaurantValidation;
+export default restaurantCreateMiddleware;
