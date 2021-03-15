@@ -19,10 +19,15 @@ const userSchema = new mongoose.Schema(
     comments: Array,
     hash: String,
     salt: String,
+    status: {type: String, enum: ['Pending', 'Active'], default: 'Pending'},
     password: {
       type: String,
       get: (): undefined => undefined,
     },
+    
+    confirmationCode: {type: String, unique: true },
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
   },
   {
     timestamps: true,

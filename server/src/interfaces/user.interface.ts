@@ -6,6 +6,8 @@ interface User {
   email: string;
   password: string;
   address?: Address;
+  status: String;
+  confirmationCode: String;
 }
 
 export default User;
