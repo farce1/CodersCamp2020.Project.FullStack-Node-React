@@ -8,6 +8,7 @@ import UserNotFoundException from '../exceptions/UserNotFoundException';
 import RestaurantIsNotonTheList from '../exceptions/RestaurantIsNotOnTheList';
 import permissionMiddleware from '../middleware/permission.middleware';
 import authMiddleware from '../middleware/auth.middleware';
+import { Operation } from '../constans/index';
 
 class FavouriteController implements Controller {
   public path = '/favourites';
@@ -27,12 +28,12 @@ class FavouriteController implements Controller {
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
     const userId: string = request.params.userId;
     if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
-      next(new UserNotFoundException(userId))
+      next(new UserNotFoundException(userId));
     }
 
     const user = await this.user.findById(userId);
     if (!user) {
-      next(new UserNotFoundException(userId))
+      next(new UserNotFoundException(userId));
     }
 
     const restaurantId: string = request.body.restaurantId;
@@ -48,7 +49,7 @@ class FavouriteController implements Controller {
     const favourites = user.get('favourites', null, {getters: false});
     const operation: string = request.body.operation;
 
-    if (operation === "add") {
+    if (operation === Operation.Add) {
       if (favourites.includes(restaurantId)) {
       next(new RestaurantAlreadyInFavourites(restaurantId));
       } else {
@@ -57,7 +58,7 @@ class FavouriteController implements Controller {
         response.send(restaurant);
       }
     }
-    if (operation === "remove") {
+    if (operation === Operation.Remove) {
       if (!favourites.includes(restaurantId)) {
         next(new RestaurantIsNotonTheList(restaurantId));
       } else {
@@ -72,7 +73,7 @@ class FavouriteController implements Controller {
   private getFavourites = async (request: Request, response: Response, next: NextFunction) => {
     const userId = request.params.userId;
     if (!userId) {
-      next(new UserNotFoundException(userId))
+      next(new UserNotFoundException(userId));
     }
     try {
     const user = await this.user.findById(userId);
