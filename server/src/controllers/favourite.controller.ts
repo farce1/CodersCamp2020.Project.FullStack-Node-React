@@ -7,6 +7,7 @@ import RestaurantNotFoundException from '../exceptions/RestaurantNotFoundExcepti
 import UserNotFoundException from '../exceptions/UserNotFoundException';
 import RestaurantIsNotonTheList from '../exceptions/RestaurantIsNotOnTheList';
 import permissionMiddleware from '../middleware/permission.middleware';
+import authMiddleware from '../middleware/auth.middleware';
 
 class FavouriteController implements Controller {
   public path = '/favourites';
@@ -19,8 +20,8 @@ class FavouriteController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:userId`, permissionMiddleware, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, permissionMiddleware, this.addOrRemoveRestaurantToFavourites);
+    this.router.get(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.getFavourites);
+    this.router.put(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.addOrRemoveRestaurantToFavourites);
   }
 
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
@@ -60,10 +61,10 @@ class FavouriteController implements Controller {
       if (!favourites.includes(restaurantId)) {
         next(new RestaurantIsNotonTheList(restaurantId));
       } else {
-        const index = favourites.findIndex((el:any) => el._id === restaurantId);
+        const index = favourites.findIndex((favourite: { _id: string; }) => favourite._id === restaurantId);
         favourites.splice(index, 1);
         await user.save();
-        response.send(200);
+        response.send(`The restaurant with id ${restaurantId} has been removed from favourites`);
       }
     }
   }
