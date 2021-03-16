@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import User, { UserAvatarUrl } from '../interfaces/user.interface';
 import addressModel, { addressSchema } from './address.model';
 
-const userSchema = new mongoose.Schema(
+export const userSchema = new mongoose.Schema(
   {
     id: String,
     firstName: String,
@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     userRole: {
       type: Number,
       default(val: number): number {
-        return 0;
+        return 2;
       },
     },
     verified: {
