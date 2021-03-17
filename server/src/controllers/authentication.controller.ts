@@ -11,12 +11,16 @@ import User from '../interfaces/user.interface';
 import userModel from '../models/user.model';
 import AuthenticationService from '../services/authentication.service';
 import LogInDto from '../dto/logIn.dto';
+import restaurantModel from '../models/restaurant.model';
+import authMiddleware from '../middleware/auth.middleware';
+import UpgradeRole from '../dto/roleUpgrade.dto';
 
 class AuthenticationController implements Controller {
   public path = '/auth';
   public router = Router();
   public authenticationService = new AuthenticationService();
   private user = userModel;
+  private restaurant = restaurantModel;
 
   constructor() {
     this.initializeRoutes();
@@ -26,6 +30,7 @@ class AuthenticationController implements Controller {
     this.router.post(`${this.path}/register`, validationMiddleware(CreateUserDto), this.registration);
     this.router.post(`${this.path}/login`, validationMiddleware(LogInDto), this.loggingIn);
     this.router.post(`${this.path}/logout`, this.loggingOut);
+    this.router.patch(`${this.path}/roleRequest/:id`, authMiddleware, this.upgradeRole);
   }
 
   private registration = async (request: Request, response: Response, next: NextFunction) => {
@@ -62,6 +67,31 @@ class AuthenticationController implements Controller {
   private loggingOut = (request: Request, response: Response) => {
     response.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
     response.send(200);
+  };
+
+  private upgradeRole = async (request: Request, response: Response, next: NextFunction) => {
+    const userId = request.params.id;
+    const roleUpgrade: UpgradeRole = request.body;
+    try {
+      const userData = await this.user.findByIdAndUpdate(userId, { ...roleUpgrade }, { new: true });
+      if (+roleUpgrade.userRole === 1) {
+        const restaurantData = await this.restaurant.findByIdAndUpdate(
+          roleUpgrade.restaurantId,
+          { owner: userData },
+          { new: true }
+        );
+        response.send({
+          user: userData,
+          restaurant: restaurantData,
+        });
+      } else {
+        response.send({
+          user: userData,
+        });
+      }
+    } catch {
+      next(new WrongCredentialsException());
+    }
   };
 
   private createCookie(tokenData: TokenData) {

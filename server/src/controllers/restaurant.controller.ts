@@ -67,9 +67,8 @@ class RestaurantController implements Controller {
   private updateRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      await this.restaurant.findByIdAndUpdate(id, { ...request.body }, (err, data) => {
-        !err ? response.send(data) : next(new RestaurantNotFoundException(id));
-      });
+      const restaurant = await this.restaurant.findByIdAndUpdate(id, { ...request.body }, { new: true });
+      response.send(restaurant);
     } catch {
       next(new RestaurantNotFoundException(id));
     }

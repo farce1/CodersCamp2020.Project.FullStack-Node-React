@@ -14,7 +14,8 @@ async function restaurantDeleteMiddleware(request: RequestWithUser, response: Re
     }
     if (userRole === 1) {
       const findRestaurant = await restaurant.findById(request.params.id);
-        console.log(findRestaurant);
+      // dorzuć walidację dla restauratora, który jest przypisany do restauracji
+      console.log(findRestaurant);
       next();
     }
   } else {
