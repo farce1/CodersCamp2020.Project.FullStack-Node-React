@@ -5,7 +5,7 @@ export interface Restaurant {
     name: string
     email: string
     address: Address
-    owner: RestaurantOwner
+    owner?: RestaurantOwner
     description?: string
     siteUrl?: string
     opened?: boolean

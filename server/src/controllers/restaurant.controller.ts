@@ -7,9 +7,10 @@ import addressModel from '../models/address.model';
 import validationMiddleware from '../middleware/validation.middleware';
 import CreateRestaurantDto from '../dto/restaurant.dto';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
-import restaurantUpdateMiddleware from '../middleware/restaurantUpdateMiddleware';
-import restaurantDeleteMiddleware from '../middleware/restaurantDeleteMiddleware';
-import restaurantCreateMiddleware from '../middleware/restaurantCreateMiddleware.middleware';
+import restaurantCreateMiddleware from '../middleware/restaurantCreate.middleware';
+import restaurantUpdateOrDeleteMiddleware from '../middleware/restaurantUpdate.middleware';
+import restaurantUpdateMiddleware from '../middleware/restaurantUpdate.middleware';
+import restaurantDeleteMiddleware from '../middleware/restaurantDelete.middleware';
 
 class RestaurantController implements Controller {
   public path = '/restaurants';
