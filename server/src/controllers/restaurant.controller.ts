@@ -8,7 +8,6 @@ import validationMiddleware from '../middleware/validation.middleware';
 import CreateRestaurantDto from '../dto/restaurant.dto';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import restaurantCreateMiddleware from '../middleware/restaurantCreate.middleware';
-import restaurantUpdateOrDeleteMiddleware from '../middleware/restaurantUpdate.middleware';
 import restaurantUpdateMiddleware from '../middleware/restaurantUpdate.middleware';
 import restaurantDeleteMiddleware from '../middleware/restaurantDelete.middleware';
 
@@ -67,10 +66,38 @@ class RestaurantController implements Controller {
 
   private updateRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
+    const dataToUpdate = request.body;
     try {
-      const restaurant = await this.restaurant.findByIdAndUpdate(id, { ...request.body }, { new: true });
-      response.send(restaurant);
-    } catch {
+      console.log('1');
+
+      // const restaurantData = await this.restaurant.findByIdAndUpdate(id, { ...dataToUpdate }, { new: true });
+      if (dataToUpdate.address) {
+        const restaurantData = await this.restaurant.findById(id);
+        console.log('2222', restaurantData);
+        const addressToUpdate = this.address.findByIdAndUpdate(
+          restaurantData.address._id,
+          {
+            street: dataToUpdate.address.street,
+            city: dataToUpdate.address.city,
+            country: dataToUpdate.address.country,
+          },
+          { new: true }
+        );
+        const restaurantToUpdate = await this.restaurant.findByIdAndUpdate(id, { ...dataToUpdate }, { new: true });
+        console.log('2', restaurantData, addressToUpdate);
+        response.send({
+          restaurant: restaurantToUpdate,
+          address: addressToUpdate,
+        });
+      } else {
+        const restaurantToUpdate = await this.restaurant.findByIdAndUpdate(id, { ...dataToUpdate }, { new: true });
+        console.log('3');
+        response.send({
+          restaurantToUpdate,
+        });
+      }
+      //  !err ? response.send({restaurant: updatedRestaurant, address: addressToUpdate }) : console.log('blad');
+    } catch (e) {
       next(new RestaurantNotFoundException(id));
     }
   };
