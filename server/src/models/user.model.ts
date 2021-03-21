@@ -2,14 +2,17 @@ import * as mongoose from 'mongoose';
 import User, { UserAvatarUrl } from '../interfaces/user.interface';
 import addressModel, { addressSchema } from './address.model';
 
-const userSchema = new mongoose.Schema(
+export const userSchema = new mongoose.Schema(
   {
     id: String,
     firstName: String,
     lastName: String,
     age: Number,
     email: String,
-    address: addressSchema,
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+    },
     avatarUrl: {
       type: String,
       default(val: UserAvatarUrl): UserAvatarUrl {
@@ -19,7 +22,7 @@ const userSchema = new mongoose.Schema(
     userRole: {
       type: Number,
       default(val: number): number {
-        return 0;
+        return 2;
       },
     },
     verified: {
@@ -41,6 +44,10 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       get: (): undefined => undefined,
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
     },
   },
   {

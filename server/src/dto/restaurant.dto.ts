@@ -1,6 +1,7 @@
 // @ts-ignore
 import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import CreateAddressDto from './address.dto';
+import CreateUserDto from "./user.dto";
 
 class CreateRestaurantDto {
   @IsString()
@@ -8,6 +9,13 @@ class CreateRestaurantDto {
 
   @IsString()
   public email: string;
+
+  @ValidateNested()
+  public address: CreateAddressDto;
+
+  @IsOptional()
+  @ValidateNested()
+  public owner: CreateUserDto;
 
   @IsOptional()
   @IsString()
@@ -27,15 +35,15 @@ class CreateRestaurantDto {
 
   @IsOptional()
   @IsArray()
-  public cuisine: [];
+  public cuisine: string[];
 
   @IsOptional()
   @IsArray()
-  public socials: [];
+  public socials: string[];
 
   @IsOptional()
   @IsArray()
-  public comments: [];
+  public comments: string[];
 
   @IsOptional()
   @IsNumber()
@@ -45,8 +53,7 @@ class CreateRestaurantDto {
   @IsNumber()
   public dislikeCount: number;
 
-  @ValidateNested()
-  public address: CreateAddressDto;
+
 }
 
 export default CreateRestaurantDto;
