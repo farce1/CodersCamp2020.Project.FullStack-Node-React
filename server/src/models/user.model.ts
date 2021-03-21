@@ -40,7 +40,12 @@ export const userSchema = new mongoose.Schema(
     ownedRestaurants: Array,
     favourites: Array,
     Operation: String || null,
-    comments: Array,
+    comments: [
+      {
+      ref: "Comments",
+      type: mongoose.Schema.Types.ObjectId,
+      }
+    ],
     password: {
       type: String,
       get: (): undefined => undefined,

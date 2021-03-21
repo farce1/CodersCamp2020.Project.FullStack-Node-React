@@ -44,7 +44,12 @@ const restaurantSchema = new mongoose.Schema(
         },
         cuisine: Array,
         socials: Array,
-        comments: Array,
+        comments: [
+            {
+            ref: "Comments",
+            type: mongoose.Schema.Types.ObjectId,
+            }
+        ],
         likeCount: {
             type: Number,
             default(val: number): number {
