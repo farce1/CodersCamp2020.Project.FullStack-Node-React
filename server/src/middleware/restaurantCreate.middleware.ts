@@ -23,22 +23,22 @@ async function restaurantCreateMiddleware(request: RequestWithUser, response: Re
   const doesDislikeCountFieldExist = Object.keys(request.body).some(key => key === 'dislikeCount');
 
   if (addressAlreadyExist) {
-    next(new RestaurantAlreadyExistsException(addressQuery, 'address'));
+    return next(new RestaurantAlreadyExistsException(addressQuery, 'address'));
   }
   if (emailAlreadyExist) {
-    next(new RestaurantAlreadyExistsException(emailQuery, 'email'));
+    return next(new RestaurantAlreadyExistsException(emailQuery, 'email'));
   }
 
   if (doesVeryfiedFieldExist) {
-    userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+    return userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
   }
 
   if (doesOwnerFieldExist) {
-    userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+    return userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
   }
 
   if (doesCommentsFieldExist || doesLikeCountFieldExist || doesDislikeCountFieldExist) {
-    next(new UserDoesNotHavePermissionToExecutedRequestedData());
+    return next(new UserDoesNotHavePermissionToExecutedRequestedData());
   }
 
   next();

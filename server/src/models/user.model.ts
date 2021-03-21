@@ -1,6 +1,5 @@
 import * as mongoose from 'mongoose';
 import User, { UserAvatarUrl } from '../interfaces/user.interface';
-import addressModel, { addressSchema } from './address.model';
 
 export const userSchema = new mongoose.Schema(
   {
@@ -37,17 +36,18 @@ export const userSchema = new mongoose.Schema(
         return false;
       },
     },
-    ownedRestaurants: Array,
+    ownedRestaurants: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Restaurant',
+      },
+    ],
     favourites: Array,
     Operation: String || null,
     comments: Array,
     password: {
       type: String,
       get: (): undefined => undefined,
-    },
-    restaurant: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Restaurant',
     },
   },
   {
