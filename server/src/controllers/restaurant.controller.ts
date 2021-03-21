@@ -10,9 +10,6 @@ import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import restaurantCreateMiddleware from '../middleware/restaurantCreate.middleware';
 import restaurantUpdateMiddleware from '../middleware/restaurantUpdate.middleware';
 import restaurantDeleteMiddleware from '../middleware/restaurantDelete.middleware';
-import { Restaurant } from '../interfaces/restaurant.interface';
-import { Address } from '../interfaces/address.interface';
-import * as mongoose from 'mongoose';
 import * as _ from 'lodash';
 
 class RestaurantController implements Controller {
@@ -59,7 +56,7 @@ class RestaurantController implements Controller {
   };
 
   addRestaurantToAddress(addressId: string, restaurantId: string) {
-    return this.address.findByIdAndUpdate(addressId, { restaurant: restaurantId }, { new: true });
+    return this.address.findByIdAndUpdate(addressId, { restaurant_id: restaurantId }, { new: true });
   }
 
   addAddressToRestaurant(restaurantId: string, addressId: string) {
@@ -77,7 +74,6 @@ class RestaurantController implements Controller {
           ...request.body.address,
         })
         .then(docAddress => {
-          console.log('\n>> Created Address:\n', docAddress);
           return docAddress;
         });
 
@@ -86,15 +82,12 @@ class RestaurantController implements Controller {
           ..._.omit(request.body, 'address'),
         })
         .then(docRestaurant => {
-          console.log('\n>> Created Restaurant:\n', docRestaurant);
           return docRestaurant;
         });
 
-      const updatedAddress = await this.addRestaurantToAddress(address._id, restaurant._id);
+      await this.addRestaurantToAddress(address._id, restaurant._id);
 
       const updatedRestaurant = await this.addAddressToRestaurant(restaurant._id, address._id).populate('address');
-      console.log('updatedRestaurant: ', updatedRestaurant);
-      console.log('updatedAddress: ', updatedAddress);
       updatedRestaurant ? response.send(updatedRestaurant) : next(new RestaurantNotFoundException());
     } catch (e) {
       console.log('error: ', e);

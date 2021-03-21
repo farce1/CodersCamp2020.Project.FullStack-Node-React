@@ -5,7 +5,7 @@ export const addressSchema = new mongoose.Schema({
     city: String,
     country: String,
     street: String,
-    restaurant: {
+    restaurant_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Restaurant"
     }
