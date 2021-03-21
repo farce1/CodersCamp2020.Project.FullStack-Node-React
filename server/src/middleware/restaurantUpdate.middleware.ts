@@ -24,9 +24,9 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
 
   try {
     selectedRestaurant = await restaurant.findById(restaurantId);
-    const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner._id;
+    const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
     const nameRequestedRestaurant = selectedRestaurant.name;
-    const addressIdOfRequestedRestaurant = selectedRestaurant.address._id;
+    const addressIdOfRequestedRestaurant = selectedRestaurant.address;
     const emailRequestedToUpdate = request.body.email;
     const addressRequestedToUpdate = request.body.address;
     const emailAlreadyExist = await restaurant.find({ email: emailRequestedToUpdate });

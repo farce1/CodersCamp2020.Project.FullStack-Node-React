@@ -14,7 +14,7 @@ async function restaurantDeleteMiddleware(request: RequestWithUser, response: Re
 
   try {
     selectedRestaurant = await restaurant.findById(restaurantId);
-    const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner._id;
+    const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
     const nameRequestedRestaurant = selectedRestaurant.name;
 
     if ( userRole === 1) {

@@ -13,6 +13,10 @@ async function restaurantCreateMiddleware(request: RequestWithUser, response: Re
   const emailQuery = request.body.email;
   const emailAlreadyExist = await restaurant.findOne({ email: emailQuery });
   const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
+  const doesOwnerFieldExist = Object.keys(request.body).some(key => key === 'owner');
+  const doesCommentsFieldExist = Object.keys(request.body).some(key => key === 'comments');
+  const doesLikeCountFieldExist = Object.keys(request.body).some(key => key === 'likeCount');
+  const doesDislikeCountFieldExist = Object.keys(request.body).some(key => key === 'dislikeCount');
 
   if (addressAlreadyExist) {
     next(new RestaurantAlreadyExistsException(addressQuery, 'address'));
@@ -23,6 +27,14 @@ async function restaurantCreateMiddleware(request: RequestWithUser, response: Re
 
   if (doesVeryfiedFieldExist) {
     userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+  }
+
+  if (doesOwnerFieldExist) {
+    userRole === 0 ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
+  }
+
+  if (doesCommentsFieldExist || doesLikeCountFieldExist || doesDislikeCountFieldExist) {
+    next(new UserDoesNotHavePermissionToExecutedRequestedData());
   }
 
   next();

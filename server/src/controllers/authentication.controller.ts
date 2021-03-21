@@ -74,21 +74,23 @@ class AuthenticationController implements Controller {
     const roleUpgrade: UpgradeRole = request.body;
     try {
       const userData = await this.user.findByIdAndUpdate(userId, { ...roleUpgrade }, { new: true });
+
       if (+roleUpgrade.userRole === 1) {
-        const restaurantData = await this.restaurant.findByIdAndUpdate(
-          roleUpgrade.restaurantId,
-          { owner: userData },
-          { new: true }
-        );
-        response.send({
+        const restaurant = await this.restaurant
+          .findByIdAndUpdate(request.body.restaurantId, {
+            owner: userId,
+          }, { new: true })
+          .populate('owner', '-__v').populate('address', '-__v');
+
+        return response.send({
           user: userData,
-          restaurant: restaurantData,
-        });
-      } else {
-        response.send({
-          user: userData,
+          restaurant,
         });
       }
+
+      return response.send({
+        user: userData,
+      });
     } catch {
       next(new WrongCredentialsException());
     }
