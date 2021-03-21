@@ -125,6 +125,7 @@ class RestaurantController implements Controller {
         });
       }
     } catch (e) {
+      console.log("catch: ", e)
       next(new RestaurantNotFoundException(id));
     }
   };

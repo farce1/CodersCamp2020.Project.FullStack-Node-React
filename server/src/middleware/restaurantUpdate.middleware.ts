@@ -15,6 +15,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   const userRole = request.user.userRole;
   const userId = request.user._id;
 
+  const doesNameFieldExist = Object.keys(request.body).some(key => key === 'name');
   const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
   const doesOwnerFieldExist = Object.keys(request.body).some(key => key === 'owner');
   const doesEmailFieldExist = Object.keys(request.body).some(key => key === 'email');
@@ -30,7 +31,8 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     const emailRequestedToUpdate = request.body.email;
     const addressRequestedToUpdate = request.body.address;
     const emailAlreadyExist = await restaurant.find({ email: emailRequestedToUpdate });
-    const addressAlreadyExist = await restaurant.find({ 'address.street': addressRequestedToUpdate.street });
+    const addressAlreadyExist =
+      addressRequestedToUpdate && (await restaurant.find({ 'address.street': addressRequestedToUpdate.street }));
 
     if (
       (doesVeryfiedFieldExist || doesOwnerFieldExist || doesEmailFieldExist || doesAddressFieldExist) &&
@@ -43,14 +45,20 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
       next(new RestaurantAlreadyExistsException(emailRequestedToUpdate, 'email'));
     }
 
-    if (addressAlreadyExist.length !== 0) {
+    if (addressRequestedToUpdate && addressAlreadyExist.length !== 0) {
       next(new RestaurantAlreadyExistsException(addressRequestedToUpdate.street, 'address'));
     }
 
     if (userRole === 0) {
       next();
     } else if (userRole === 1) {
-      if (doesVeryfiedFieldExist || doesOwnerFieldExist || doesEmailFieldExist || doesAddressFieldExist) {
+      if (
+        doesVeryfiedFieldExist ||
+        doesOwnerFieldExist ||
+        doesEmailFieldExist ||
+        doesAddressFieldExist ||
+        doesNameFieldExist
+      ) {
         ownerOfSelectedRestaurant.toString() === userId.toString()
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
@@ -59,6 +67,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
       next();
     }
   } catch (error) {
+    console.log(error);
     next(new RestaurantNotFoundException(restaurantId));
   }
 }
