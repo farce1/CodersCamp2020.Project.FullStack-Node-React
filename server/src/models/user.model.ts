@@ -39,6 +39,7 @@ export const userSchema = new mongoose.Schema(
     },
     ownedRestaurants: Array,
     favourites: Array,
+    Operation: String || null,
     comments: Array,
     password: {
       type: String,

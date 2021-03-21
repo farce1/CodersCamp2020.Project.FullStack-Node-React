@@ -15,6 +15,7 @@ import restaurantModel from '../models/restaurant.model';
 import authMiddleware from '../middleware/auth.middleware';
 import UpgradeRole from '../dto/roleUpgrade.dto';
 
+
 class AuthenticationController implements Controller {
   public path = '/auth';
   public router = Router();
