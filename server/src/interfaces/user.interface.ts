@@ -7,7 +7,7 @@ interface User {
   age?: number;
   email: string;
   password: string;
-  address?: Address;
+  address?: string;
   avatarUrl?: string;
   userRole?: number;
   verified?: boolean;
@@ -15,6 +15,7 @@ interface User {
   ownedRestaurants?: boolean[];
   favourites?: string[];
   comments?: string[];
+  restaurant?: string
 }
 
 export type UserAvatarUrl = string | null;
