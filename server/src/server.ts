@@ -5,6 +5,7 @@ import UserController from './controllers/user.controller';
 import validateEnv from './utils/validateEnv';
 import RestaurantController from "./controllers/restaurant.controller";
 import FavouriteController from "./controllers/favourite.controller";
+import AddressController from './controllers/address.controller';
 validateEnv();
 
 const app = new App(
@@ -12,7 +13,8 @@ const app = new App(
     new AuthenticationController(),
     new UserController(),
     new RestaurantController(),
-    new FavouriteController()
+    new FavouriteController(),
+    new AddressController(),
   ],
 );
 

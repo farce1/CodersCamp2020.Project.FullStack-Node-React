@@ -7,9 +7,13 @@ const restaurantSchema = new mongoose.Schema(
         id: String,
         name: String,
         email: String,
-        address: addressSchema,
+        address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Address"
+        },
         owner: {
-            type: userSchema,
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
             default(val: RestaurantOwner): RestaurantOwner {
                 return null;
             },

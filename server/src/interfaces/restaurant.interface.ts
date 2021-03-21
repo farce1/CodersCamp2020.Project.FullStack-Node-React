@@ -4,7 +4,8 @@ export interface Restaurant {
     _id: string
     name: string
     email: string
-    address: Address
+    address: string
+    owner?: string
     description?: string
     siteUrl?: string
     opened?: boolean

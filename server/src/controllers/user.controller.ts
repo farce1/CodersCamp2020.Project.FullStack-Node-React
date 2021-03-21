@@ -6,8 +6,7 @@ import UserNotFoundException from '../exceptions/UserNotFoundException';
 import WrongCredentialsException from '../exceptions/WrongCredentialsException';
 import permissionMiddleware from '../middleware/permission.middleware';
 import UserDoesNotHavePermissionToExecutedRequestedData from '../exceptions/UserDoesNotHavePermissionToExecutedRequestedData';
-import adminAuth from '../middleware/adminAuthMiddleware.middleware';
-import adminAuthMiddleware from "../middleware/adminAuthMiddleware.middleware";
+import adminAuthMiddleware from '../middleware/adminAuthMiddleware.middleware';
 
 class UserController implements Controller {
   public path = '/users';

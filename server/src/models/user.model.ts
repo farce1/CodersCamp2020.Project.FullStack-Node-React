@@ -9,7 +9,10 @@ export const userSchema = new mongoose.Schema(
     lastName: String,
     age: Number,
     email: String,
-    address: addressSchema,
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Address',
+    },
     avatarUrl: {
       type: String,
       default(val: UserAvatarUrl): UserAvatarUrl {
@@ -41,6 +44,10 @@ export const userSchema = new mongoose.Schema(
     password: {
       type: String,
       get: (): undefined => undefined,
+    },
+    restaurant: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Restaurant',
     },
   },
   {
