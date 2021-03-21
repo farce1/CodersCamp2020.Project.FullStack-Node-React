@@ -55,9 +55,6 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
-      // else if(doesAddressFieldExist){
-      //   const addressToUpdate = await address.findById(addressIdOfRequestedRestaurant)
-      // }
     } else {
       next();
     }

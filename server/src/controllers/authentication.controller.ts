@@ -14,7 +14,7 @@ import LogInDto from '../dto/logIn.dto';
 import restaurantModel from '../models/restaurant.model';
 import authMiddleware from '../middleware/auth.middleware';
 import UpgradeRole from '../dto/roleUpgrade.dto';
-
+import UserIsAlreadyOwnerOfSelectedRestaurant from '../exceptions/UserIsAlreadyOwnerOfSelectedRestaurant';
 
 class AuthenticationController implements Controller {
   public path = '/auth';
@@ -70,28 +70,48 @@ class AuthenticationController implements Controller {
     response.send(200);
   };
 
+  addRestaurantToOwner(restaurantId: string, ownerId: string) {
+    return this.user.findByIdAndUpdate(
+      ownerId,
+      { $push: { ownedRestaurants: restaurantId }, userRole: 1 },
+      { new: true }
+    );
+  }
+
   private upgradeRole = async (request: Request, response: Response, next: NextFunction) => {
     const userId = request.params.id;
-    const roleUpgrade: UpgradeRole = request.body;
-    try {
-      const userData = await this.user.findByIdAndUpdate(userId, { ...roleUpgrade }, { new: true });
+    const roleUpgrade = request.body.userRole;
+    const restaurantId = request.body.restaurantId;
 
-      if (+roleUpgrade.userRole === 1) {
-        const restaurant = await this.restaurant
-          .findByIdAndUpdate(request.body.restaurantId, {
-            owner: userId,
-          }, { new: true })
-          .populate('owner', '-__v').populate('address', '-__v');
+    try {
+      const rest = await this.restaurant.findById(restaurantId);
+      if ('' + rest.owner !== userId) {
+        const userData = await this.addRestaurantToOwner(restaurantId, userId);
+
+        if (+roleUpgrade === 1) {
+          const restaurant = await this.restaurant
+            .findByIdAndUpdate(
+              restaurantId,
+              {
+                owner: userId,
+              },
+              { new: true }
+            )
+            .populate('address', '-__v')
+            .populate('owner', '-__v')
+            .populate({ path: 'owner', populate: { path: 'ownedRestaurants' } });
+
+          return response.send({
+            restaurant,
+          });
+        }
 
         return response.send({
           user: userData,
-          restaurant,
         });
+      } else {
+        next(new UserIsAlreadyOwnerOfSelectedRestaurant(userId));
       }
-
-      return response.send({
-        user: userData,
-      });
     } catch {
       next(new WrongCredentialsException());
     }
