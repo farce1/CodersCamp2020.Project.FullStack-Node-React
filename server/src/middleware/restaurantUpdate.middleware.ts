@@ -9,8 +9,9 @@ import addressModel from '../models/address.model';
 
 async function restaurantUpdateMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
   const restaurant = restaurantModel;
-  const restaurantId = request.params.id;
   const address = addressModel;
+
+  const restaurantId = request.params.id;
   let selectedRestaurant = null;
   const userRole = request.user.userRole;
   const userId = request.user._id;
@@ -28,34 +29,36 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
     const nameRequestedRestaurant = selectedRestaurant.name;
     const restaurantHaveOwner = selectedRestaurant.owner;
-    const addressIdOfRequestedRestaurant = selectedRestaurant.address;
     const emailRequestedToUpdate = request.body.email;
     const addressRequestedToUpdate = request.body.address;
     const emailAlreadyExist = await restaurant.find({ email: emailRequestedToUpdate });
-    const addressAlreadyExist =
-      addressRequestedToUpdate && (await restaurant.find({ 'address.street': addressRequestedToUpdate.street }));
+    let addressAlreadyExist = false;
+    if (addressRequestedToUpdate) {
+      const exist = await address.find({ 'street': addressRequestedToUpdate.street });
+      addressAlreadyExist = !!exist.length;
+    }
 
-    if ((doesVeryfiedFieldExist || doesOwnerFieldExist || doesAddressFieldExist) && !isConfirmed) {
+    if ((doesVeryfiedFieldExist || doesOwnerFieldExist) && !isConfirmed) {
       next(new UserDoesNotHavePermissionToExecutedRequestedData());
     }
 
-    if (emailAlreadyExist.length !== 0) {
+    if (emailRequestedToUpdate && emailAlreadyExist.length !== 0) {
       next(new RestaurantAlreadyExistsException(emailRequestedToUpdate, 'email'));
     }
 
-    if (addressRequestedToUpdate && addressAlreadyExist.length !== 0) {
+    if (addressRequestedToUpdate && addressAlreadyExist) {
       next(new RestaurantAlreadyExistsException(addressRequestedToUpdate.street, 'address'));
     }
 
     if (userRole === 0) {
       next();
     } else if (userRole === 1) {
-      if (doesVeryfiedFieldExist || doesOwnerFieldExist || doesAddressFieldExist) {
+      if (doesVeryfiedFieldExist || doesOwnerFieldExist) {
         ownerOfSelectedRestaurant.toString() === userId.toString()
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
-      if (doesNameFieldExist || doesEmailFieldExist) {
+      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist) {
         if (restaurantHaveOwner !== null) {
           ownerOfSelectedRestaurant.toString() === userId.toString()
             ? next()
@@ -65,7 +68,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
         }
       }
     } else {
-      if (doesNameFieldExist || doesEmailFieldExist) {
+      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist) {
         if (restaurantHaveOwner !== null) {
           next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
         } else {
