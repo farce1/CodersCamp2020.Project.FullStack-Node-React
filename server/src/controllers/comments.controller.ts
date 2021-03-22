@@ -34,7 +34,7 @@ class CommentsController implements Controller {
       `${this.path}/:restaurantId`,
       authMiddleware,
       validationMiddleware(CreateCommentDto),
-    //   restaurantCreateMiddleware,
+      //   restaurantCreateMiddleware,
       this.createComment
     );
     // this.router.patch(`${this.path}/:id`, this.updateRestaurant);
@@ -44,75 +44,89 @@ class CommentsController implements Controller {
   private getComments = async (request: Request, response: Response, next: NextFunction) => {
     const comments = await this.comment.find();
     comments ? response.send(comments) : next(new RestaurantNotFoundException());
-  //  error do zmiany, czy to jest potrzebne ogólnie ta funkcja?
-  //  dodać .populate('author', '-password');?
-  //  https://github.com/mwanago/express-typescript/blob/part-5/src/post/post.controller.ts
+    //  error do zmiany, czy to jest potrzebne ogólnie ta funkcja?
+    //  dodać .populate('author', '-password');?
+    //  https://github.com/mwanago/express-typescript/blob/part-5/src/post/post.controller.ts
   };
 
   private getCommentsById = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      await this.comment.findById(id, (err, comment) => {
-        !err ? response.send(comment) : next(new RestaurantNotFoundException(id));
-      });
+      const comment = await this.comment.findById(id).populate('user');
+
+      if (comment) {
+        return response.send(comment);
+      }
+      return next(new RestaurantNotFoundException(id));
     } catch {
       next(new RestaurantNotFoundException(id));
     }
-  //  zmienić error
+    //  zmienić error
   };
 
   private createComment = async (request: RequestWithUser, response: Response, next: NextFunction) => {
-        // const userId: string = request.userId; permissionMiddleware middlewar
+    // const userId: string = request.userId; permissionMiddleware middlewar
 
-        // const userId: string = String(request.user._id)
-        // if (!userId) {
-        // next(new UserNotFoundException(userId));
-        // }
+    // const userId: string = String(request.user._id)
+    // if (!userId) {
+    // next(new UserNotFoundException(userId));
+    // }
 
-        // const user = await this.user.findById(userId);
-        // if (!user) {
-        // next(new UserNotFoundException(userId));
-        const restaurantId: string = request.params.restaurantId;
-        if (!restaurantId) {
-        next(new RestaurantNotFoundException(restaurantId));
-        }
+    // const user = await this.user.findById(userId);
+    // if (!user) {
+    // next(new UserNotFoundException(userId));
+    try {
+      const restaurantId: string = request.params.restaurantId;
+      if (!restaurantId) {
+        return next(new RestaurantNotFoundException(restaurantId));
+      }
 
-        const restaurant = await this.restaurant.findById(restaurantId);
-        if (!restaurant) {
-        next(new RestaurantNotFoundException(restaurantId));
-        }
-        const user = await this.user.findById(request.user._id);
-        const postComment: CreateCommentDto = request.body;
-        const createdComment = await this.comment.create({
-          timeStamp: Date.now(),
-          ...postComment,
-          user: [request.user._id],
-          restaurant: [request.params.restaurantId],
-        });
-        // await savedComment.populate('restaurant','name').execPopulate();
-        // await savedComment.populate('user','firstName').execPopulate();
-        // await savedComment.populate('user','lastName').execPopulate();
-        const restaurantsComments = restaurant.get('comments', null, {getters: false});
-        const userComments = user.get('comments', null, {getters: false});
-        userComments.push(createdComment);
-        restaurantsComments.push(createdComment);
+      const restaurant = await this.restaurant.findById(restaurantId);
+      if (!restaurant) {
+        return next(new RestaurantNotFoundException(restaurantId));
+      }
+      const user = await this.user.findById(request.user._id);
+      const postComment: CreateCommentDto = request.body;
 
-        // user.comments = [...user.comments, createdComment._id];
-        await user.save();
-        await restaurant.save();
-        const savedComment = await createdComment.save();
-        // await savedComment.populate('restaurant','name').execPopulate();
-        // await savedComment.populate('user', 'lastName').execPopulate();
-        response.send(savedComment);
+      const createdComment = await this.comment.create({
+        ...postComment,
+        user: [request.user._id],
+        restaurant: [request.params.restaurantId],
+      });
 
-        // const restaurantsComments = restaurant.get('comments', null, {getters: false});
-        // const userComments = user.get('comments', null, {getters: false});
-        // restaurantsComments.push(comment);
-        // userComments.push(comment);
-        // restaurant.save();
-        // user.save();
-        // comment ? response.send(comment) : next(new RestaurantNotFoundException());
-    };
+      // await savedComment.populate('restaurant','name').execPopulate();
+      // await savedComment.populate('user','firstName').execPopulate();
+      // await savedComment.populate('user','lastName').execPopulate();
+      const restaurantsComments = restaurant.get('comments', null, { getters: false });
+      const userComments = user.get('comments', null, { getters: false });
+
+      userComments.push(createdComment);
+      restaurantsComments.push(createdComment);
+      // user.comments = [...user.comments, createdComment._id];
+
+      await this.user.findByIdAndUpdate(request.user._id, {
+        comments: userComments
+      });
+      // await user.save();  // tutaj masz tego errora w tej o linijce, wyżej moje rozwiązanie które działa
+      await restaurant.save();
+
+      const savedComment = await createdComment.save();
+      // await savedComment.populate('restaurant','name').execPopulate();
+      // await savedComment.populate('user', 'lastName').execPopulate();
+      response.send(savedComment);
+
+      // const restaurantsComments = restaurant.get('comments', null, {getters: false});
+      // const userComments = user.get('comments', null, {getters: false});
+      // restaurantsComments.push(comment);
+      // userComments.push(comment);
+      // restaurant.save();
+      // user.save();
+      // comment ? response.send(comment) : next(new RestaurantNotFoundException());
+    } catch (e) {
+      console.log('error: ', e);
+      next(new RestaurantNotFoundException('1'));
+    }
+  };
 
   private deleteComment = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;

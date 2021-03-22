@@ -2,8 +2,8 @@ import Comments from "interfaces/comments.interface";
 import * as mongoose from "mongoose";
 
 export const commentsSchema = new mongoose.Schema({
-    timeStamp: Date,
     comment: String,
+    id: String,
     // restaurant_id: String,
     // restaurant_name: String,
     // user_id: String,
@@ -17,6 +17,12 @@ export const commentsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     }
+}, {
+    timestamps: true,
+    toJSON: {
+        virtuals: true,
+        getters: true,
+    },
 });
 
 const commentsModel = mongoose.model<Comments & mongoose.Document>('Comments', commentsSchema);
