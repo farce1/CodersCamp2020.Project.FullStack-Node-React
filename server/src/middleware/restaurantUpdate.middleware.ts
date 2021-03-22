@@ -27,6 +27,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     selectedRestaurant = await restaurant.findById(restaurantId);
     const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
     const nameRequestedRestaurant = selectedRestaurant.name;
+    const restaurantHaveOwner = selectedRestaurant.owner;
     const addressIdOfRequestedRestaurant = selectedRestaurant.address;
     const emailRequestedToUpdate = request.body.email;
     const addressRequestedToUpdate = request.body.address;
@@ -64,6 +65,13 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
     } else {
+      if (doesNameFieldExist) {
+        if (restaurantHaveOwner !== null) {
+          next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
+        } else {
+         return next();
+        }
+      }
       next();
     }
   } catch (error) {

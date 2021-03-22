@@ -119,13 +119,13 @@ class RestaurantController implements Controller {
         const restaurant = await this.restaurant
           .findByIdAndUpdate(id, { ...dataToUpdate }, { new: true })
           .populate('address');
-
+        console.log('restaurant: ', restaurant);
         response.send({
           restaurant,
         });
       }
     } catch (e) {
-      console.log("catch: ", e)
+      console.log('catch: ', e);
       next(new RestaurantNotFoundException(id));
     }
   };
