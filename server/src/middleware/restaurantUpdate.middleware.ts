@@ -35,10 +35,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     const addressAlreadyExist =
       addressRequestedToUpdate && (await restaurant.find({ 'address.street': addressRequestedToUpdate.street }));
 
-    if (
-      (doesVeryfiedFieldExist || doesOwnerFieldExist || doesEmailFieldExist || doesAddressFieldExist) &&
-      !isConfirmed
-    ) {
+    if ((doesVeryfiedFieldExist || doesOwnerFieldExist || doesAddressFieldExist) && !isConfirmed) {
       next(new UserDoesNotHavePermissionToExecutedRequestedData());
     }
 
@@ -53,25 +50,29 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     if (userRole === 0) {
       next();
     } else if (userRole === 1) {
-      if (
-        doesVeryfiedFieldExist ||
-        doesOwnerFieldExist ||
-        doesEmailFieldExist ||
-        doesAddressFieldExist ||
-        doesNameFieldExist
-      ) {
+      if (doesVeryfiedFieldExist || doesOwnerFieldExist || doesAddressFieldExist) {
         ownerOfSelectedRestaurant.toString() === userId.toString()
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
+      if (doesNameFieldExist || doesEmailFieldExist) {
+        if (restaurantHaveOwner !== null) {
+          ownerOfSelectedRestaurant.toString() === userId.toString()
+            ? next()
+            : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
+        } else {
+          next();
+        }
+      }
     } else {
-      if (doesNameFieldExist) {
+      if (doesNameFieldExist || doesEmailFieldExist) {
         if (restaurantHaveOwner !== null) {
           next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
         } else {
-         return next();
+          return next();
         }
       }
+
       next();
     }
   } catch (error) {
