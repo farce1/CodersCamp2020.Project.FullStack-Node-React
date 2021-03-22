@@ -27,14 +27,20 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   try {
     selectedRestaurant = await restaurant.findById(restaurantId);
     const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
-    const nameRequestedRestaurant = selectedRestaurant.name;
     const restaurantHaveOwner = selectedRestaurant.owner;
+    const nameRequestedRestaurant = selectedRestaurant.name;
+
     const emailRequestedToUpdate = request.body.email;
     const addressRequestedToUpdate = request.body.address;
-    const emailAlreadyExist = await restaurant.find({ email: emailRequestedToUpdate });
+
+    let emailAlreadyExist = false;
+    if(emailRequestedToUpdate){
+      const exist =  await restaurant.find({ email: emailRequestedToUpdate });
+      emailAlreadyExist= !!exist.length
+    }
     let addressAlreadyExist = false;
     if (addressRequestedToUpdate) {
-      const exist = await address.find({ 'street': addressRequestedToUpdate.street });
+      const exist = await address.find({ street: addressRequestedToUpdate.street });
       addressAlreadyExist = !!exist.length;
     }
 
@@ -42,7 +48,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
       next(new UserDoesNotHavePermissionToExecutedRequestedData());
     }
 
-    if (emailRequestedToUpdate && emailAlreadyExist.length !== 0) {
+    if (emailRequestedToUpdate && emailAlreadyExist) {
       next(new RestaurantAlreadyExistsException(emailRequestedToUpdate, 'email'));
     }
 
