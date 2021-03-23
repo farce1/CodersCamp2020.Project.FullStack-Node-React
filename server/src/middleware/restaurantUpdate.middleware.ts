@@ -17,10 +17,11 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   const userId = request.user._id;
 
   const doesNameFieldExist = Object.keys(request.body).some(key => key === 'name');
-  const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
-  const doesOwnerFieldExist = Object.keys(request.body).some(key => key === 'owner');
   const doesEmailFieldExist = Object.keys(request.body).some(key => key === 'email');
   const doesAddressFieldExist = Object.keys(request.body).some(key => key === 'address');
+  const doesOwnerFieldExist = Object.keys(request.body).some(key => key === 'owner');
+  const doesDescriptionFieldExist = Object.keys(request.body).some(key => key === 'description');
+  const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
   const isPermission = () => userRole === 1 || userRole === 0;
   const isConfirmed = isPermission();
 
@@ -64,7 +65,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
-      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist) {
+      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist || doesDescriptionFieldExist) {
         if (restaurantHaveOwner !== null) {
           ownerOfSelectedRestaurant.toString() === userId.toString()
             ? next()
@@ -74,7 +75,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
         }
       }
     } else {
-      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist) {
+      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist || doesDescriptionFieldExist) {
         if (restaurantHaveOwner !== null) {
           next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
         } else {
