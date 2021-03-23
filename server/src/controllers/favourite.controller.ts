@@ -9,6 +9,7 @@ import RestaurantIsNotonTheList from '../exceptions/RestaurantIsNotOnTheList';
 import permissionMiddleware from '../middleware/permission.middleware';
 import authMiddleware from '../middleware/auth.middleware';
 import { Operation } from '../constans/index';
+import favourtieEditMiddleware from '../middleware/editFavourites.middleware';
 
 class FavouriteController implements Controller {
   public path = '/favourites';
@@ -22,7 +23,7 @@ class FavouriteController implements Controller {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/:userId`, authMiddleware, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, authMiddleware, this.addOrRemoveRestaurantToFavourites);
+    this.router.put(`${this.path}/:userId`, authMiddleware, favourtieEditMiddleware, this.addOrRemoveRestaurantToFavourites);
   }
 
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
