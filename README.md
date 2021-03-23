@@ -1,18 +1,73 @@
-# CodersCamp 2020 - Projekt końcowy (FullStack — Node.js + React)
-**CodersCamp (coderscamp.edu.pl) - Największy otwarty kurs programowania webowego** 
+# Coders Camp 2020 | Projekt Zespołowy | TypeScript
+ 
+ ## Spis treści
+ 
+ - Projekt — Zespół projektowy
+ - Podział zadań
+ - Projekt — Node.js
+ - Technologia projektu
+ - Przegląd projektu
+ - Dostępne skrypty
+ - Wersja demo
+ 
+ ### Zespół projektowy
+ 
+ Zespół pracował w ramach kursu [CodersCamp](CodersCamp.pl).
+ Aplikację wykonali uczestnicy kursu przy pomocy mentora.
+ Zachęcamy do odwiedzenia profili członków zespołu, w celu zapoznania się z ich portfolio.
 
-### Wprowadzenie
-Gratulacje! 
-Udało Wam się dotrzeć prawie do końca kursu. 
-Posiadacie już wiele umiejętności, które są konieczne, aby rozpocząć karierę programisty.
-W trakcie tego projektu powinniście dowieść, że jesteście gotowi wykonywać kompletne aplikacje webowe.
-Wraz ze zbieraniem wymagań, dzieleniem pracy, zarządzaniem, całym procesem wytwórczym, testowaniem oraz wdrażaniem.
+**Mentor**: 
+[Grzegorz Sztuczyński](https://github.com/farce1)
+[Michał Skorzec]
 
-### Zasady wykonywania projektu (wspólne dla wszystkich grup i mentorów): 
+**Uczestnicy**:
 
-##### W projekcie każdy z uczestników powinien zaprezentować praktyczną znajomość poniższych zagadnień związanych z Node.js i React:
+- [Justyna Sobczak](https://github.com/s-justina) (Tech Lead)
+- [Natalia Dębska](https://github.com/talcia) (Development Manager)
+- [Paulina Kolasa] (Product Owner)
+- [Agata Saczek] (Product Owner)
+- [Michał Stępień] (Development Manager)
+- [Olaf Koziara](https://github.com/Olaf-Koziara) (Tech Lead)
+- [Miron Weltrowski](https://github.com/miron54) (Tech Lead)
 
-**Node.js / Express**
+### Podział zadań:
+
+W trakcie trwania projektu wyznaczono w zespole odpowiednie funkcje:
+
+##### Tech Lead - Justyna, Miron, Olaf
+
+Ostateczne zdanie w kwestiach związanych z technologią należy do Tech Lead'a.
+Tech Lead przeprowadza Code Review zadań, dzięki czemu zespół unika błędów projektowych.
+Wspiera zespół techniczną radą przez co praca idzie szybko i sprawnie.
+
+##### Product Owner - Agata, Paulina
+
+Wizja produktu i kwestie związane z funkcjonalnościami to zadanie dla Product Owner'a.
+Prowadzi zespół zgodnie z wymaganiami klienta oraz rozwiewa wszelkie wątpliwości 
+związane z założeniami projektowymi.
+
+##### Development Manager - Natalia, Michał
+
+Koordynacja zespołem nieustannie kontrolowana.
+Development Manager odpowiada za podział zadań oraz kontrolę jakości pracy.
+Przeprowadza codzienne daily, dzięki czemu zespół pracuje w harmonii.
+
+### Projekt — Node.js
+
+Projekt powstał w ramach kursu CodersCamp 2020. Jest to czwarty projekt
+z serii projektów, które są realizowane podczas kursu.
+Ma on charakter zespołowy.
+Celem projektu jest wykonanie backendu aplikacji webowej.
+
+### Technologia projektu
+
+Projekt powstał w Node.js w oparciu o framework Express.js.
+W trakcie realizacji projektu posłużono się dodatkowymi narzędziami w celu zoptymalizowania
+pracy całego zespołu.
+Wszelkie schematy działań związanych z projektem, systematycznie mapowano na tablicy miro.
+
+Wykonanie gry objęło niżej wymienione zagadnienia, w celu ich utrwalenia:
+
 - REST API
 - zakładanie konta użytkownika
 - autoryzacja i autentykacja użytkownika, różne uprawnienia. Wykorzystanie Json Web Token.
@@ -20,78 +75,55 @@ Wraz ze zbieraniem wymagań, dzieleniem pracy, zarządzaniem, całym procesem wy
 - integracja z jakimś zewnętrznym systemem (np. wysyłanie e-maili)
 - pisanie testów
 
-**React**
-- Komunikacja klient — serwer
-- functional component
-- React hooks
-- tworzenie list komponentów
-- JSX
-- pisanie testów
+## Przegląd projektu
 
-Aplikacja musi korzystać z bazy danych (noSQL lub SQL) i zostać wykonana w architekturze Klient-Serwer (składać się co najmniej z 3 jednostek wdrożeniowych, tzn.: aplikacja webowa, backend i baza danych). 
-
-Back-end zależy zaimplementować za pomocą frameworka Express.js lub NestJS (uczą się go backendowcy w ostatnim rozdziale).
-
-Front-end wykonajcie przy użyciu biblioteki React. 
-Jeśli czujecie się na siłach, zastosujcie Redux do zarządzania stanem (frontendowcy poznają go w ostatnim dziale).
-
-Ponieważ projekt jest bardzo duży, będziecie na niego mieli 2 razy więcej czasu, niż poprzednio.
-Sugerujemy w czasie działu 5 implementować część back-endową, a wczasie działu 6-tego część front-endową.
-Wiedzę uzyskaną w dziale 6-tym możecie wykorzystać w projekcie, ale nie jest to koniecznie.
-Ale to Wy odpowiadacie za powodzenie projektu, więc podejmujcie decyzje, korzystajcie z porad bardziej doświadczonych
-i zróbcie coś niesamowitego! W trakcie trwania projektu odbędą się dwie prezentacje (z częstotliwością jak dotychczas).
-Najprawdodpoboniej na pierwszym spotkaniu zaprezentujecie samo REST API. Warto przygotować je tak, jakby miało być odrębnym produktem!
-A na prezentacji kończącej projekt z Reacta, pokażecie jak działa wszystko razem.
-
-##### W trakcie trwania projektu należy wyznaczyć w zespole następujące role
-tak jak opisano w przypadku poprzedniego projektu.
-
-##### Sposób oceny projektu (i wszystkich kolejnych projektów na CodersCamp)
-tak jak opisano w przypadku poprzedniego projektu.
+Aplikacja "Co otwarte" to pandemiczna platforma otwartych restauracji w Polsce.
+Poinformuje ona osoby głodne wrażeń, które restauracje w ich mieście (i nie tylko)
+są otwarte w czasach pandemii. Zalogowanym użytkownikom pozwala na wyszukanie restauracji
+w celu sprawdzenia jej aktualnego statusu. Natomiast restauratorom pozwala na poinformanie 
+potencjalnych klientów o otwarciu restauracji, co przełoży się na większe zainteresowanie
+z ich strony. Restauratorzy moga poinformować również o zamknięciu restauracji, co pozwoli 
+uniknąć niemiłych komentarzy ze strony osób, które nieświadomie znajdą się pod drzwiami 
+zamknietej restauracji. 
 
 
-### Projekt końcowy — aplikacja webowa
-Teraz przechodzimy do przykładowego projektu, który został przygotowany przez organizatorów kursu.
-Proponowany projekt pozwala na zastosowania większości umiejętności, jakie powinniście posiąśc w trakcie przerabiania działu.
-Jednakże jeśli macie pomysł na projekt podobnej skali, który spełni opisane na górze wymagania i czujecie się na siłach
-w zdefiniowaniu funkcjonalności, przygotowaniu ekranów i podzieleniu go na zadania — to nic nie stoi na przeszkodzie,
-aby wykonać np. coś związanego z zainteresowaniami Waszej grupy :)
-**W tym przypadku zachęcamy jeszcze bardziej niż zazwyczaj, aby wykonać coś innego niż proponowany temat.
-Ten projekt będzie swoistym zwieńczeniem i podsumowaniem wszystkiego, co nauczyliście się w trakcie trwania CodersCamp.
-Przykładowy projekt dajemy Wam głównie po to, abyście odczuli skalę, w której stronę powinniście dążyć przy określaniu własnego pomysłu.**
-Możecie też zaimplementować Kino, ale zupełnie inaczej (lepiej) niż tutaj jest zaproponowane. 
-Niech wasza prezentacja zwali z nóg uczestników.
-Pamiętajcie tylko, że czas jest ograniczony i musicie zdążyć z aplikacją do prezentacji. 
-Ten projekt jest niezwykle ważny dla waszej przyszłej programistycznej kariery. Można powiedzieć, że od tego zależy wasze być albo nie być podczas poszukiwania pierwszej pracy. W protoflio Junior Developera znakomicie sprwdzają się tego rodzaju projekty - a okazja do wykonania go w zespole i to pod okiem mentora - już może Wam się więcej nie powtórzyć.
-Więc dajcie z siebie wszystko i powodzenia!
+## Funkcjonalności:
+1. Użytkownik może zarejestrować się w systemie, podając imię, nazwisko, hasło i adres e-mail.
+2. Użytkownik może zalogować się w systemie, podając adres e-mail i hasło.
+3. Użytkownik moze zmienić dane swojego konta.
+4. Użytkownik moze usunąć swoje konto.
+5. Użytkownik może dodać daną restauracje do ulubionych.
+6. Użytkownik może usunąć daną restauracje z ulubionych.
+7. Zalogowani użytkownicy mogą przeglądać restauracje.
+8. Użytkownik może stworzyć restauracje podając nazwe, adres e-mail, adres.
+9. Użytkownik może ubiegać się o rolę właściciela restauracji.
+10. Właściciel restauracji może zmienić dane swojej restauracji.
+11. Właściciel restauracji może usunąć swoją restaurację.
+12. Admin posiada dostęp do wszystkich akcji (dodawanie, usuwanie, edycja) uzytkownika i restauracji.
 
 
-### Wymagania
-Klient wraz z analitykiem biznesowym spisali podstawowe wymagania co do projektu.
-Jednakże nie krępujcie się przed ich doprecyzowaniem / zmianami, czy też ulepszeniami.
-To Wy jesteście profesjonalistami w swoim fachu i Klient ufa, że zrobicie wszystko jak najlepiej.
-Jeśli uważacie, że jakichś informacji Wam brakuje, najlepiej, jeśli Product Owner spróbuje uzupełnić luki w wymaganiach wraz z klientem.
-Wymagania podzielono na dwie sekcje. Aplikację dla widza i panel administracyjny.
+## Dostępne skrypty
 
-##### Wymagania funkcjonalne:
-1. Klient może zarejestrować się w systemie, podając imię, nazwisko, hasło i adres e-mail.
-1. Klient może zalogować się w systemie, podając adres e-mail i hasło.
-1.
+Po sklonowaniu bieżącego projektu pamiętaj, aby
+uruchomić `npm install`, aby zainstalować wszystkie zależności.
 
+#### Uruchomienie projektu
 
-##### Prototyp interfejsu użytkownika
-Przygotowanie projektu od 0 lub implementacja bez projektu.
+Projekt możesz uruchomić za pomocą komendy:
 
-##### Wymagania funkcjonalne:
+`npm run dev`
 
+Otwórz adres [http://localhost:8080/
+](/http://localhost:8080/), aby wyświetlić go w przeglądarce.
 
-## Możliwe usprawnienia i dodatkowe funkcjonalności:
-1. Integracja z zewnętrznym systemem płatności — np. PayU (wykorzystać Sandbox, który umożliwia testowanie płatności bez prawdziwych transakcji)
-1. Sprawdzanie biletów — generowanie kodu QR z zakupionym biletem. Bilet jest „sprawdzony” po zeskanowaniu kodu QR telefonem.
-1. Kreator do ustawiania miejsc na sali w bardziej skomplikowany sposób niż wspomniany prostokąt.
+#### Uruchomienie testów
 
-## Dodatkowe zadania (wykraczające poza zakres kursu):
-1. Wykonanie testów E2E, przy użyciu odpowiedniego narzędzia. Proponujemy np. Cypress.
-1. Utworzenie Storybook dla zdefiniowanych komponentów.
+Aby uruchomić testy aplikacji, wykonaj następujące kroki:
 
-Wszelkie inne dodane przez Was funkcjonalności czy usprawnienia infrastrukturalne należy przedstawić w README.md projektu :)
+1. Zainstaluj zależności za pomocą komendy: `npm install` (jeśli nie zrobiłeś już tego wcześniej).
+1. Uruchom testy, wykonując komendę: `npm run test`. 
+
+## Wersja demo
+
+Jeżeli chcesz zobaczyć wersję demo kliknij
+w [>>link<<](https://farce1.github.io/CodersCamp2020.Project.TypeScript/).
