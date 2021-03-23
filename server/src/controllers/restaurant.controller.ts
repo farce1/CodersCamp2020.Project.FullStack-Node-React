@@ -76,7 +76,7 @@ class RestaurantController implements Controller {
   removeRestaurantFromOwner(restaurantId: string, ownerId: string) {
     return this.user.findByIdAndUpdate(
       ownerId,
-      { $pull: { ownedRestaurants: restaurantId }, userRole: 0 },
+      { $pull: { ownedRestaurants: restaurantId }, userRole: 2 },
       { new: true }
     );
   }
