@@ -9,7 +9,6 @@
  - Przegląd projektu
  - Funkcjonalności
  - Dostępne skrypty
- - Wersja demo
  
  ### Zespół projektowy
  
@@ -124,7 +123,3 @@ Aby uruchomić testy aplikacji, wykonaj następujące kroki:
 1. Zainstaluj zależności za pomocą komendy: `npm install` (jeśli nie zrobiłeś już tego wcześniej).
 1. Uruchom testy, wykonując komendę: `npm run test`. 
 
-## Wersja demo
-
-Jeżeli chcesz zobaczyć wersję demo kliknij
-w [>>link<<](https://farce1.github.io/CodersCamp2020.Project.TypeScript/).
