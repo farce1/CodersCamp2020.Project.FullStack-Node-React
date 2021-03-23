@@ -32,9 +32,11 @@ class UserController implements Controller {
   private getUserById = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      await this.user.findById(id, (err, user) => {
-        !err ? response.send(user) : next(new UserNotFoundException(id));
-      });
+      const user = await this.user.findById(id).populate('ownedRestaurants');
+      if(user){
+        return response.send(user)
+      }
+      next(new UserNotFoundException(id))
     } catch {
       next(new WrongCredentialsException());
     }

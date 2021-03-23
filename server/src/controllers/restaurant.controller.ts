@@ -73,6 +73,14 @@ class RestaurantController implements Controller {
     );
   }
 
+  removeRestaurantFromOwner(restaurantId: string, ownerId: string) {
+    return this.user.findByIdAndUpdate(
+      ownerId,
+      { $pull: { ownedRestaurants: restaurantId }, userRole: 0 },
+      { new: true }
+    );
+  }
+
   private createRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const address = await this.address.create({
@@ -125,7 +133,6 @@ class RestaurantController implements Controller {
         });
       }
     } catch (e) {
-      console.log('catch: ', e);
       next(new RestaurantNotFoundException(id));
     }
   };
@@ -133,11 +140,14 @@ class RestaurantController implements Controller {
   private deleteRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      await this.restaurant.findByIdAndDelete(id, { ...request.body }, (err, restaurant) => {
-        !err ? response.send(restaurant) : next(new RestaurantNotFoundException(id));
-      });
+      const restaurant = await this.restaurant.findByIdAndDelete(id);
+      await this.address.findOneAndDelete({ restaurant_id: id });
+      await this.removeRestaurantFromOwner(id, restaurant.owner);
+      restaurant
+        ? response.status(200).send(`Restaurant ${restaurant.name} successfully removed`)
+        : next(new RestaurantNotFoundException(id));
     } catch {
-      next(new WrongCredentialsException());
+      next(new RestaurantNotFoundException(id));
     }
   };
 }

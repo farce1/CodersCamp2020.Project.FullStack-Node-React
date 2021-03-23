@@ -9,6 +9,7 @@ async function restaurantDeleteMiddleware(request: RequestWithUser, response: Re
   const restaurant = restaurantModel;
   const restaurantId = request.params.id;
   let selectedRestaurant = null;
+
   const userRole = request.user.userRole;
   const userId = request.user._id;
 
