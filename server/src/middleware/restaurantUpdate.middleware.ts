@@ -21,6 +21,8 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   const doesAddressFieldExist = Object.keys(request.body).some(key => key === 'address');
   const doesOwnerFieldExist = Object.keys(request.body).some(key => key === 'owner');
   const doesDescriptionFieldExist = Object.keys(request.body).some(key => key === 'description');
+  const doesSiteUrlFieldExist = Object.keys(request.body).some(key => key === 'siteUrl');
+  const doesOpenedUrlFieldExist = Object.keys(request.body).some(key => key === 'opened');
   const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
   const isPermission = () => userRole === 1 || userRole === 0;
   const isConfirmed = isPermission();
@@ -35,9 +37,9 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
     const addressRequestedToUpdate = request.body.address;
 
     let emailAlreadyExist = false;
-    if(emailRequestedToUpdate){
-      const exist =  await restaurant.find({ email: emailRequestedToUpdate });
-      emailAlreadyExist= !!exist.length
+    if (emailRequestedToUpdate) {
+      const exist = await restaurant.find({ email: emailRequestedToUpdate });
+      emailAlreadyExist = !!exist.length;
     }
     let addressAlreadyExist = false;
     if (addressRequestedToUpdate) {
@@ -65,7 +67,14 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
           ? next()
           : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
       }
-      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist || doesDescriptionFieldExist) {
+      if (
+        doesNameFieldExist ||
+        doesEmailFieldExist ||
+        doesAddressFieldExist ||
+        doesDescriptionFieldExist ||
+        doesSiteUrlFieldExist ||
+        doesOpenedUrlFieldExist
+      ) {
         if (restaurantHaveOwner !== null) {
           ownerOfSelectedRestaurant.toString() === userId.toString()
             ? next()
@@ -75,7 +84,14 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
         }
       }
     } else {
-      if (doesNameFieldExist || doesEmailFieldExist || doesAddressFieldExist || doesDescriptionFieldExist) {
+      if (
+        doesNameFieldExist ||
+        doesEmailFieldExist ||
+        doesAddressFieldExist ||
+        doesDescriptionFieldExist ||
+        doesSiteUrlFieldExist ||
+        doesOpenedUrlFieldExist
+      ) {
         if (restaurantHaveOwner !== null) {
           next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
         } else {
