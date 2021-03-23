@@ -1,4 +1,4 @@
-# Coders Camp 2020 | Projekt Zespołowy | TypeScript
+# Coders Camp 2020 | Projekt Zespołowy | Node.js
  
  ## Spis treści
  
@@ -66,12 +66,12 @@ W trakcie realizacji projektu posłużono się dodatkowymi narzędziami w celu z
 pracy całego zespołu.
 Wszelkie schematy działań związanych z projektem, systematycznie mapowano na tablicy miro.
 
-Wykonanie gry objęło niżej wymienione zagadnienia, w celu ich utrwalenia:
+Wykonanie backendu aplikacji objęło niżej wymienione zagadnienia, w celu ich utrwalenia:
 
 - REST API
 - zakładanie konta użytkownika
 - autoryzacja i autentykacja użytkownika, różne uprawnienia. Wykorzystanie Json Web Token.
-- wykorzystanie bazy danych (NoSQL lub SQL)
+- wykorzystanie bazy danych (MongoDB)
 - integracja z jakimś zewnętrznym systemem (np. wysyłanie e-maili)
 - pisanie testów
 
@@ -96,10 +96,11 @@ zamknietej restauracji.
 6. Użytkownik może usunąć daną restauracje z ulubionych.
 7. Zalogowani użytkownicy mogą przeglądać restauracje.
 8. Użytkownik może stworzyć restauracje podając nazwe, adres e-mail, adres.
-9. Użytkownik może ubiegać się o rolę właściciela restauracji.
-10. Właściciel restauracji może zmienić dane swojej restauracji.
-11. Właściciel restauracji może usunąć swoją restaurację.
-12. Admin posiada dostęp do wszystkich akcji (dodawanie, usuwanie, edycja) uzytkownika i restauracji.
+9. Użytkownik może zmienić status restauracji, która nie posiada właściciela.
+10. Użytkownik może ubiegać się o rolę właściciela restauracji.
+11. Właściciel restauracji może zmienić dane swojej restauracji.
+12. Właściciel restauracji może usunąć swoją restaurację.
+13. Admin posiada dostęp do wszystkich akcji (dodawanie, usuwanie, edycja) uzytkownika i restauracji.
 
 
 ## Dostępne skrypty
