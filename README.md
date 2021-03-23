@@ -7,6 +7,7 @@
  - Projekt — Node.js
  - Technologia projektu
  - Przegląd projektu
+ - Funkcjonalności
  - Dostępne skrypty
  - Wersja demo
  
@@ -18,15 +19,16 @@
 
 **Mentor**: 
 [Grzegorz Sztuczyński](https://github.com/farce1)
-[Michał Skorzec]
+
+Michał Skorzec
 
 **Uczestnicy**:
 
 - [Justyna Sobczak](https://github.com/s-justina) (Tech Lead)
 - [Natalia Dębska](https://github.com/talcia) (Development Manager)
-- [Paulina Kolasa] (Product Owner)
-- [Agata Saczek] (Product Owner)
-- [Michał Stępień] (Development Manager)
+- Paulina Kolasa (Product Owner)
+- Agata Saczek (Product Owner)
+- Michał Stępień (Development Manager)
 - [Olaf Koziara](https://github.com/Olaf-Koziara) (Tech Lead)
 - [Miron Weltrowski](https://github.com/miron54) (Tech Lead)
 
