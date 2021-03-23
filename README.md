@@ -18,9 +18,8 @@
  Zachęcamy do odwiedzenia profili członków zespołu, w celu zapoznania się z ich portfolio.
 
 **Mentor**: 
-[Grzegorz Sztuczyński](https://github.com/farce1)
-
-Michał Skorzec
+- [Grzegorz Sztuczyński](https://github.com/farce1)
+- Michał Skorzec
 
 **Uczestnicy**:
 
