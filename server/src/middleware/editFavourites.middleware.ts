@@ -5,13 +5,12 @@ import NotAuthorizedException from '../exceptions/NotAuthorizedException';
 
 async function favourtieEditMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
   try {
-    const favourieListtId = request.params.id;
-    const userRole = request.user.userRole;
+    const favourieListtId = request.params.userId;
     const userId = request.user._id;
-        if ( userRole === 2 && userId === favourieListtId) {
-            next();
+        if ( userId.toString() !== favourieListtId.toString() ) {
+          next (new UserDoesNotHavePermissionToEditThisFavourtie());
         } else {
-            next(new UserDoesNotHavePermissionToEditThisFavourtie());
+          next();
         }
     } catch {
         next (new NotAuthorizedException())
