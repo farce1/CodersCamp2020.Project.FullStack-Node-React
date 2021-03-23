@@ -25,6 +25,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   const doesOpenedUrlFieldExist = Object.keys(request.body).some(key => key === 'opened');
   const doesVeryfiedFieldExist = Object.keys(request.body).some(key => key === 'verified');
   const doesCuisineFieldExist = Object.keys(request.body).some(key => key === 'cuisine');
+  const doesSocialsFieldExist = Object.keys(request.body).some(key => key === 'socials');
   const isPermission = () => userRole === 1 || userRole === 0;
   const isConfirmed = isPermission();
 
@@ -74,7 +75,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
         doesAddressFieldExist ||
         doesDescriptionFieldExist ||
         doesSiteUrlFieldExist ||
-        doesOpenedUrlFieldExist||doesCuisineFieldExist
+        doesOpenedUrlFieldExist||doesCuisineFieldExist || doesSocialsFieldExist
       ) {
         if (restaurantHaveOwner !== null) {
           ownerOfSelectedRestaurant.toString() === userId.toString()
@@ -92,7 +93,7 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
         doesDescriptionFieldExist ||
         doesSiteUrlFieldExist ||
         doesOpenedUrlFieldExist ||
-        doesCuisineFieldExist
+        doesCuisineFieldExist || doesSocialsFieldExist
       ) {
         if (restaurantHaveOwner !== null) {
           next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
