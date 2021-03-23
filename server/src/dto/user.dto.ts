@@ -1,6 +1,7 @@
 // @ts-ignore
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, ValidateNested, IsArray } from 'class-validator';
 import CreateAddressDto from './address.dto';
+import CreateCommentDto from './comment.dto';
 
 class CreateUserDto {
   @IsString()
@@ -18,6 +19,11 @@ class CreateUserDto {
   @IsOptional()
   @ValidateNested()
   public address?: CreateAddressDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @IsArray()
+  public comments: [CreateCommentDto];
 }
 
 export default CreateUserDto;

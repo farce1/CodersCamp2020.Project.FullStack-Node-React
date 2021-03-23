@@ -19,7 +19,8 @@ class UserController implements Controller {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, authMiddleware, adminAuthMiddleware, this.getUsers);
-    this.router.get(`${this.path}/:id`, authMiddleware, adminAuthMiddleware, this.getUserById);
+    // this.router.get(`${this.path}/:id`, authMiddleware, adminAuthMiddleware, this.getUserById);
+    this.router.get(`${this.path}/:id`, this.getUserById);
     this.router.patch(`${this.path}/:id`, authMiddleware, permissionMiddleware, this.updateUser);
     this.router.delete(`${this.path}/:id`, authMiddleware, permissionMiddleware, this.deleteUser);
   }
@@ -32,9 +33,11 @@ class UserController implements Controller {
   private getUserById = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      await this.user.findById(id, (err, user) => {
-        !err ? response.send(user) : next(new UserNotFoundException(id));
-      });
+      const user = await this.user.findById(id).populate('comments');
+      if (user) {
+        return response.send(user);
+      }
+      next(new UserNotFoundException(id));
     } catch {
       next(new WrongCredentialsException());
     }

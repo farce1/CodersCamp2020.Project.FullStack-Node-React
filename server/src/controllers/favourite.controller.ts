@@ -21,8 +21,8 @@ class FavouriteController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.addOrRemoveRestaurantToFavourites);
+    this.router.get(`${this.path}/:userId`, authMiddleware, this.getFavourites);
+    this.router.put(`${this.path}/:userId`, authMiddleware, this.addOrRemoveRestaurantToFavourites);
   }
 
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {

@@ -1,6 +1,5 @@
-import { addressSchema } from '../models/address.model';
 
-interface User {
+export interface User {
   _id: string;
   firstName: string;
   lastName: string;
@@ -12,10 +11,10 @@ interface User {
   userRole?: number;
   verified?: boolean;
   blocked?: boolean;
-  ownedRestaurants?: boolean[];
+  ownedRestaurants?: string[];
   favourites?: string[];
   comments?: string[];
-  restaurant?: string
+  restaurant?: string;
 }
 
 export type UserAvatarUrl = string | null;
