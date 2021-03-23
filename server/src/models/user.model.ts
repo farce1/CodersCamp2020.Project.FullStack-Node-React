@@ -6,8 +6,12 @@ export const userSchema = new mongoose.Schema(
     id: String,
     firstName: String,
     lastName: String,
-    age: Number,
     email: String,
+    password: {
+      type: String,
+      get: (): undefined => undefined,
+    },
+    age: Number,
     address: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Address',
@@ -24,12 +28,6 @@ export const userSchema = new mongoose.Schema(
         return 2;
       },
     },
-    verified: {
-      type: Boolean,
-      default(val: boolean): boolean {
-        return false;
-      },
-    },
     blocked: {
       type: Boolean,
       default(val: boolean): boolean {
@@ -43,12 +41,8 @@ export const userSchema = new mongoose.Schema(
       },
     ],
     favourites: Array,
-    Operation: String || null,
     comments: Array,
-    password: {
-      type: String,
-      get: (): undefined => undefined,
-    },
+    Operation: String || null,
   },
   {
     timestamps: true,
