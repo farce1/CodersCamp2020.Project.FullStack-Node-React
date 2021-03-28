@@ -1,5 +1,5 @@
 // @ts-ignore
-import { IsOptional, IsString, ValidateNested, IsArray } from 'class-validator';
+import {IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested} from 'class-validator';
 import CreateAddressDto from './address.dto';
 import CreateCommentDto from './comment.dto';
 
@@ -17,6 +17,10 @@ class CreateUserDto {
   public password: string;
 
   @IsOptional()
+  @IsNumber()
+  public age: number;
+
+  @IsOptional()
   @ValidateNested()
   public address?: CreateAddressDto;
 
@@ -24,6 +28,25 @@ class CreateUserDto {
   @ValidateNested()
   @IsArray()
   public comments: [CreateCommentDto];
+
+  @IsNumber()
+  public userRole: number;
+
+  @IsOptional()
+  @IsString()
+  public avatarUrl: string;
+
+  @IsOptional()
+  @IsBoolean()
+  public blocked: boolean;
+
+  @IsOptional()
+  @IsArray()
+  public ownedRestaurants: string[];
+
+  @IsOptional()
+  @IsArray()
+  public favourites: string[];
 }
 
 export default CreateUserDto;

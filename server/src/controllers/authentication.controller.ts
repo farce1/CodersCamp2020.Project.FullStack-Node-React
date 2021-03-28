@@ -112,7 +112,8 @@ class AuthenticationController implements Controller {
       } else {
         next(new UserIsAlreadyOwnerOfSelectedRestaurant(userId));
       }
-    } catch {
+    } catch (e){
+      console.log("cath", e)
       next(new WrongCredentialsException());
     }
   };

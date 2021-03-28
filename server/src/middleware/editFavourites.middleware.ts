@@ -1,13 +1,13 @@
 import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { NextFunction, Response } from 'express';
-import UserDoesNotHavePermissionToEditThisFavourtie from '../exceptions/UserDoecNotPerrmissionToEditFavourites';
+import UserDoesNotHavePermissionToEditThisFavourtie from '../exceptions/UserDoesNotPerrmissionToEditFavourites';
 import NotAuthorizedException from '../exceptions/NotAuthorizedException';
 
-async function favourtieEditMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
+async function favouriteEditMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
   try {
-    const favourieListtId = request.params.userId;
+    const userFavourites = request.params.userId;
     const userId = request.user._id;
-        if ( userId.toString() !== favourieListtId.toString() ) {
+        if ( userId.toString() !== userFavourites.toString() ) {
           next (new UserDoesNotHavePermissionToEditThisFavourtie());
         } else {
           next();
@@ -17,4 +17,4 @@ async function favourtieEditMiddleware(request: RequestWithUser, response: Respo
     }
   }
 
-export default favourtieEditMiddleware;
+export default favouriteEditMiddleware;

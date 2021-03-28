@@ -1,5 +1,5 @@
-import Comments from "interfaces/comments.interface";
-import * as mongoose from "mongoose";
+import Comments from 'interfaces/comments.interface';
+import * as mongoose from 'mongoose';
 
 export const commentsSchema = new mongoose.Schema({
     comment: String,

@@ -8,8 +8,12 @@ export const userSchema = new mongoose.Schema(
     id: String,
     firstName: String,
     lastName: String,
-    age: Number,
     email: String,
+    password: {
+      type: String,
+      get: (): undefined => undefined,
+    },
+    age: Number,
     address: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Address',
@@ -24,12 +28,6 @@ export const userSchema = new mongoose.Schema(
       type: Number,
       default(val: number): number {
         return 2;
-      },
-    },
-    verified: {
-      type: Boolean,
-      default(val: boolean): boolean {
-        return false;
       },
     },
     blocked: {
@@ -52,10 +50,6 @@ export const userSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       }
     ],
-    password: {
-      type: String,
-      get: (): undefined => undefined,
-    },
   },
   {
     timestamps: true,

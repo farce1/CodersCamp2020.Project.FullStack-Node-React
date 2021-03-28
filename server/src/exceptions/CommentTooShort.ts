@@ -2,7 +2,8 @@ import HttpException from './HttpException';
 
 class CommentTooShort extends HttpException {
     constructor() {
-        super(400, `The comment must have more than one letter`);
+        const idErrorMessage = `The comment must have more than one letter`;
+        super(400, idErrorMessage);
     }
 }
 

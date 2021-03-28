@@ -1,20 +1,19 @@
+import {Address} from "./address.interface";
 
 export interface User {
   _id: string;
   firstName: string;
   lastName: string;
-  age?: number;
   email: string;
   password: string;
+  age?: number;
   address?: string;
-  avatarUrl?: string;
   userRole?: number;
-  verified?: boolean;
+  avatarUrl?: string;
   blocked?: boolean;
   ownedRestaurants?: string[];
   favourites?: string[];
   comments?: string[];
-  restaurant?: string;
 }
 
 export type UserAvatarUrl = string | null;

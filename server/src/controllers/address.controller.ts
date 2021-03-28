@@ -2,9 +2,8 @@ import { Router, Request, Response, NextFunction } from 'express';
 import Controller from '../interfaces/controller.interface';
 import authMiddleware from '../middleware/auth.middleware';
 import addressModel from '../models/address.model';
-import validationMiddleware from '../middleware/validation.middleware';
-import CreateAddressDto from '../dto/address.dto';
 import AddressNotFoundException from '../exceptions/AddressNotFoundException';
+import permissionMiddleware from '../middleware/permission.middleware';
 
 class AddressController implements Controller {
   public path = '/addresses';
@@ -18,8 +17,7 @@ class AddressController implements Controller {
   private initializeRoutes() {
     this.router.get(`${this.path}`, authMiddleware, this.getAddresses);
     this.router.get(`${this.path}/:id`, authMiddleware, this.getAddressById);
-    this.router.patch(`${this.path}/:id`, authMiddleware, this.updateAddress);
-    this.router.delete(`${this.path}/:id`, authMiddleware, this.deleteAddress);
+    this.router.patch(`${this.path}/:id`, authMiddleware, permissionMiddleware, this.updateAddress);
   }
 
   private getAddresses = async (request: Request, response: Response, next: NextFunction) => {
@@ -46,21 +44,9 @@ class AddressController implements Controller {
     const dataToUpdate = request.body;
     try {
       const address = await this.address.findByIdAndUpdate(id, { ...dataToUpdate }, { new: true });
-      console.log(address, dataToUpdate);
       address ? response.send(address) : next(new AddressNotFoundException(id));
     } catch (e) {
       next(new AddressNotFoundException(id));
-    }
-  };
-
-  private deleteAddress = async (request: Request, response: Response, next: NextFunction) => {
-    const id = request.params.id;
-    try {
-      await this.address.findByIdAndDelete(id, { ...request.body }, (err, address) => {
-        !err ? response.send(address) : next(new AddressNotFoundException(id));
-      });
-    } catch {
-      next(new AddressNotFoundException());
     }
   };
 }
