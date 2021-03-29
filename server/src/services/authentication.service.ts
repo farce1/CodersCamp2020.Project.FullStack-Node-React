@@ -24,7 +24,7 @@ class AuthenticationService {
     const hashedPassword = await bcrypt.hash(userData.password, +process.env.SALT);
 
     const secret = process.env.JWT_SECRET;
-    const confirmationToken = jwt.sign({email: userData.email}, secret)
+    const confirmationToken = jwt.sign({ email: userData.email }, secret);
 
     const user = await this.user.create({
       ...userData,
@@ -37,11 +37,10 @@ class AuthenticationService {
       service: 'gmail',
       auth: {
         user: process.env.EMAIL,
-        pass: process.env.EMAIL_PASSWORD
+        pass: process.env.EMAIL_PASSWORD,
       },
-      secure: true
+      secure: true,
     });
-    
     const mailOptions = {
       from: 'mernappcovid@gmail.com',
       to: userData.email,
@@ -49,19 +48,17 @@ class AuthenticationService {
       html: `<h1>Email Confirmation</h1>
       <h2>Hello ${userData.firstName}</h2>
       <p>Thank you for subscribing. Please confirm your email by clicking on the following link</p>
-      <a href=http://localhost:8080/auth/confirm/${confirmationToken}> Click here</a>
-      </div>`
-
+      <a href=${process.env.PATH_CONFIRM}${confirmationToken}> Click here</a>
+      </div>`,
     };
-    
-    transporter.sendMail(mailOptions, function(error:string, info: {response:unknown}){
+
+    transporter.sendMail(mailOptions, function (error: string, info: { response: unknown }) {
       if (error) {
         console.log(error);
       } else {
         console.log('Email sent: ' + info.response);
       }
-    }); 
-
+    });
 
     const tokenData = this.createToken(user);
     const cookie = this.createCookie(tokenData);

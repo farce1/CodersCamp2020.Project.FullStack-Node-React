@@ -11,54 +11,47 @@ const nodemailer = require('nodemailer');
 
 class ResettingPassword {
   public user = userModel;
-  public async resetPassword(userData:{email:string}) {
-    if (!(await this.user.findOne({email: userData.email}))) {
-      throw new Error('No such email');
-    }
+  public async resetPassword(userData: { email: string }) {
 
-    if (!(await this.user.findOne({email: userData.email}))) {
+    if (!(await this.user.findOne({ email: userData.email }))) {
       throw new Error('No such email');
     }
     const secret = process.env.JWT_SECRET;
-    const forgotToken = jwt.sign(userData.email, secret)
+    const forgotToken = jwt.sign(userData.email, secret);
 
-    this.user.update(
-        {email: userData.email}, 
-        {resetPasswordToken: forgotToken}, 
-        (err, result)=>{
-            if(err){
-                console.log(err)
-            }else{
-                console.log(result)
-            }});
+    this.user.update({ email: userData.email }, { resetPasswordToken: forgotToken }, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(result);
+      }
+    });
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL,
-      pass: process.env.EMAIL_PASSWORD
-    }
-  });
-  
-  const mailOptions = {
-    from: 'mernappcovid@gmail.com',
-    to: userData.email,
-    subject: 'Please confirm resetting password',
-    html: `<h1>Password reset</h1>
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: 'mernappcovid@gmail.com',
+      to: userData.email,
+      subject: 'Please confirm resetting password',
+      html: `<h1>Password reset</h1>
     <p>Click following link to reset your password</p>
-    <a href=http://localhost:8080/auth/forgetConfirm/${forgotToken}> Click here</a>
-    </div>`
+    <a href=${process.env.PATH_EMAIL_RESET}${forgotToken}> Click here</a>
+    </div>`,
+    };
 
-  };
-  
-  transporter.sendMail(mailOptions, function(error:string, info: {response:string}){
-    if (error) {
-      console.log(error);
-    } else {
-      console.log('Email sent: ' + info.response);
-    }
-  }); 
-
+    transporter.sendMail(mailOptions, function (error: string, info: { response: string }) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
   }
 }
 
