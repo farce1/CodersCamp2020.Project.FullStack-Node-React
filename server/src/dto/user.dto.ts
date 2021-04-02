@@ -1,6 +1,7 @@
 // @ts-ignore
 import {IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested} from 'class-validator';
 import CreateAddressDto from './address.dto';
+import CreateCommentDto from './comment.dto';
 
 class CreateUserDto {
   @IsString()
@@ -24,6 +25,10 @@ class CreateUserDto {
   public address?: CreateAddressDto;
 
   @IsOptional()
+  @ValidateNested()
+  @IsArray()
+  public comments: [CreateCommentDto];
+
   @IsNumber()
   public userRole: number;
 
@@ -42,10 +47,6 @@ class CreateUserDto {
   @IsOptional()
   @IsArray()
   public favourites: string[];
-
-  @IsOptional()
-  @IsArray()
-  public comments: string[];
 }
 
 export default CreateUserDto;

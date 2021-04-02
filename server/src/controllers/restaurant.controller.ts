@@ -50,7 +50,7 @@ class RestaurantController implements Controller {
   private getRestaurantById = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     try {
-      const restaurant = await this.restaurant.findById(id).populate('address');
+      const restaurant = await this.restaurant.findById(id).populate('address').populate('comments');
       restaurant ? response.send(restaurant) : next(new RestaurantNotFoundException(id));
     } catch {
       next(new RestaurantNotFoundException(id));

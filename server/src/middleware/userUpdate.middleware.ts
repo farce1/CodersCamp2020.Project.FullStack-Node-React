@@ -1,6 +1,5 @@
 import RequestWithUser from '../interfaces/requestWithUser.interface';
 import { NextFunction, Response } from 'express';
-import restaurantModel from '../models/restaurant.model';
 import UserDoesNotHavePermissionToExecutedRequestedData from '../exceptions/UserDoesNotHavePermissionToExecutedRequestedData';
 
 async function userUpdateMiddleware(request: RequestWithUser, response: Response, next: NextFunction) {
@@ -20,11 +19,6 @@ async function userUpdateMiddleware(request: RequestWithUser, response: Response
     if (doesUserRoleFieldExist) return next(new UserDoesNotHavePermissionToExecutedRequestedData());
     if (doesBlockedFieldExist) return next(new UserDoesNotHavePermissionToExecutedRequestedData());
     authenticatedUser === request.params.id ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
-  }
-
-  try {
-  } catch (error) {
-    console.log(error);
   }
 }
 

@@ -1,5 +1,7 @@
 import * as mongoose from 'mongoose';
 import User, { UserAvatarUrl } from '../interfaces/user.interface';
+import addressModel, { addressSchema } from './address.model';
+import Comments from '../interfaces/comments.interface';
 
 export const userSchema = new mongoose.Schema(
   {
@@ -41,8 +43,13 @@ export const userSchema = new mongoose.Schema(
       },
     ],
     favourites: Array,
-    comments: Array,
     Operation: String || null,
+    comments: [
+      {
+      ref: "Comments",
+      type: mongoose.Schema.Types.ObjectId,
+      }
+    ],
   },
   {
     timestamps: true,
