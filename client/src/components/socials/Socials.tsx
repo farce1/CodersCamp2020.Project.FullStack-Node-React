@@ -8,6 +8,7 @@ const Socials: React.FC = () => {
       return <InstaImg style={{ backgroundImage: `url(assets/images/socials/socials${_}.png)` }} />;
     });
   };
+
   return (
     <Fragment>
       <SocialsWrapper>
