@@ -22,10 +22,10 @@ async function userUpdateMiddleware(request: RequestWithUser, response: Response
     authenticatedUser === request.params.id ? next() : next(new UserDoesNotHavePermissionToExecutedRequestedData());
   }
 
-  try {
-  } catch (error) {
-    console.log(error);
-  }
+  // try {
+  // } catch (error) {
+  //   console.log(error);
+  // }
 }
 
 export default userUpdateMiddleware;

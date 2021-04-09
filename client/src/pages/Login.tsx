@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react'
-import Counter from '../components/counter/Counter'
+import Login from '../components/login/Login'
 
 export const Home: React.FC = () => {
   return (
     <Fragment>
-      <Counter />
+      <Login />
     </Fragment>
   )
 }
