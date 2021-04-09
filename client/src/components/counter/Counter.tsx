@@ -1,10 +1,10 @@
-import React, { Fragment } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { actionTypes, selectors } from '../../features/counter'
+import React, { Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { actionTypes, selectors } from '../../features/counter';
 
 const Counter: React.FC = () => {
-  const count = useSelector(selectors.getCountValue)
-  const dispatch = useDispatch()
+  const count = useSelector(selectors.getCountValue);
+  const dispatch = useDispatch();
 
   return (
     <Fragment>
@@ -17,8 +17,8 @@ const Counter: React.FC = () => {
                 Counter: <strong>{count}</strong>
               </h4>
               <p>
-                Here you can increment and decrement counter value using buttons
-                below. All the state updates are performed via redux actions.
+                Here you can increment and decrement counter value using buttons below. All the state updates are
+                performed via redux actions.
               </p>
             </div>
             <div className="card-action">
@@ -27,9 +27,7 @@ const Counter: React.FC = () => {
                   className="waves-effect waves-teal btn-flat blue"
                   type="button"
                   data-qa="decrement-counter"
-                  onClick={() =>
-                    dispatch({ type: actionTypes.DECREMENT_COUNTER })
-                  }
+                  onClick={() => dispatch({ type: actionTypes.DECREMENT_COUNTER })}
                 >
                   decrement
                 </button>
@@ -37,9 +35,7 @@ const Counter: React.FC = () => {
                   className="waves-effect waves-teal btn-flat red"
                   type="button"
                   data-qa="increment-counter"
-                  onClick={() =>
-                    dispatch({ type: actionTypes.INCREMENT_COUNTER })
-                  }
+                  onClick={() => dispatch({ type: actionTypes.INCREMENT_COUNTER })}
                 >
                   increment
                 </button>
@@ -49,7 +45,7 @@ const Counter: React.FC = () => {
         </div>
       </div>
     </Fragment>
-  )
-}
+  );
+};
 
 export default Counter

@@ -1,14 +1,14 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
-import { Navbar } from './components/Navbar'
+import { NavBar } from './components/NavBar'
 import { About } from './pages/About'
 import { Home } from './pages/Home'
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Navbar />
+      <NavBar />
       <div className="container">
         <Switch>
           <Route path="/" component={Home} exact />
