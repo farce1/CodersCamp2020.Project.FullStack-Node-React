@@ -1,6 +1,6 @@
 // import React from 'react';
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const Input = styled.section`
   padding-left: 1em;
@@ -8,14 +8,14 @@ export const Input = styled.section`
   background: FFFFFF;
   width: 50%;
   box-sizing: border-box;
-  box-shadow: 0 0 5px 5px #D7D7D7;
+  box-shadow: 0 0 5px 5px #d7d7d7;
   margin-top: 1.5em;
   font-size: 0.5em;
   color: red;
   @media (max-width: 750px) {
     width: 90%;
   }
-`;
+`
 
 export const Grid = styled.section`
   padding-left: 1em;
@@ -29,7 +29,7 @@ export const Grid = styled.section`
   @media (max-width: 750px) {
     flex-direction: column;
   }
-`;
+`
 
 export const Center = styled.section`
   display: flex;
@@ -41,20 +41,20 @@ export const Center = styled.section`
   @media (max-width: 750px) {
     justify-content: center;
   }
-`;
+`
 
 export const Anchor = styled.a`
   text-decoration: none;
   color: #555555;
-`;
+`
 
 export const Button = styled.button`
   display: inline-block;
-  color: #B79C10;
-  background: #FFE145;
+  color: #b79c10;
+  background: #ffe145;
   font-size: 1em;
   border-radius: 10px;
-  border: #FFE145;
+  border: #ffe145;
   display: block;
   padding: 1em;
   justify-items: center;
@@ -64,7 +64,7 @@ export const Button = styled.button`
   &:hover {
     opacity: 1;
   }
-`;
+`
 
 export const Form = styled.form`
   text-align: center;
@@ -73,7 +73,7 @@ export const Form = styled.form`
   justify-items: center;
   justify-self: center;
   box-sizing: border-box;
-`;
+`
 
 export const Wrapper = styled.section`
   display: grid;
@@ -86,13 +86,43 @@ export const Wrapper = styled.section`
   font-size: 1.5em;
   text-align: center;
   color: #555555;
-  box-shadow: 0 0 5px 5px #D7D7D7;
+  box-shadow: 0 0 5px 5px #d7d7d7;
   box-sizing: border-box;
   margin-top: 0.5em;
   margin-bottom: 0.5em;
-`;
+  font-size: 1em;
+`
 
 export const Div = styled.section`
   width: 100%;
   display: grid;
-`;
+`
+
+export const CheckboxWrapper = styled.section`
+  width: 40%;
+  display: grid;
+  margin-top: 1em;
+  justify-content: center;
+  color: red;
+  font-size: 0.5em;
+  box-sizing: border-box;
+  padding-top: 1em;
+  @media (max-width: 700px) {
+    grid-template-columns: 1fr;
+  }
+`
+
+export const Checkbox = styled.input`
+  box-sizing: border-box;
+  display: grid;
+  &:checked {
+    opacity: 1;
+    cursor: pointer;
+  }
+  &:not(:checked) {
+    opacity: 1;
+  }
+  @media (max-width: 900px) {
+    margin-right: 2em;
+  }
+`

@@ -23,12 +23,12 @@ const SignupForm = () => {
     },
 
     validationSchema: Yup.object({
-      email: Yup.string().email('Błędny adres email').required('RWymagane'),
+      email: Yup.string().email('Błędny adres email').required('Wymagane'),
       password: Yup.string().required('Wymagane'),
     }),
     onSubmit: (values) => {
-      // docelowo połączenie z serwerem i sprawdzenie usera
       console.log(values)
+
     },
   })
   return (
@@ -79,13 +79,13 @@ const Login = () => (
         <p>Nie masz konta?</p>
         <Center>
           <div>
-            <a href="/">
+            <a href="/register">
               <Center>
                 <img src={personAdd} alt="" width="24" height="24" />
               </Center>
             </a>
           </div>
-          <Anchor href="/">Zarejestruj się</Anchor>
+          <Anchor href="/register">Zarejestruj się</Anchor>
         </Center>
       </Grid>
     </Wrapper>

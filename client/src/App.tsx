@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar'
 import { About } from './pages/About'
 import { Home } from './pages/Home'
 import Login from './components/login/Login'
+import Register from './components/register/Register'
 
 const App: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const App: React.FC = () => {
           <Route path="/" component={Home} exact />
           <Route path="/about" component={About} />
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
         </Switch>
       </div>
     </BrowserRouter>
