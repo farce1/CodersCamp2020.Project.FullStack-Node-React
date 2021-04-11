@@ -11,10 +11,16 @@ export interface Restaurant {
     opened?: boolean
     verified?: boolean
     cuisine?: string[]
-    socials?: string[]
+    socials?: Socials
     comments?: string[]
     likeCount?: number
     dislikeCount?: number
+}
+
+export interface Socials {
+    facebook: string | null,
+    instagram: string | null,
+    socialImage: string | null
 }
 
 export type RestaurantSiteUrl = string | null;
