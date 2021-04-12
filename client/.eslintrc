@@ -19,6 +19,7 @@
     "prettier/prettier": [
       "warn"
     ],
+    "no-debugger": "warn",
     // Disable <Fragment> => <> replacement. Feel free to change
     "react/jsx-fragments": "off",
     // Disable prefer default export

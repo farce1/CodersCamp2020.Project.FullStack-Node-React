@@ -1,3 +1,3 @@
-import { SystemState } from './types'
+import { RestaurantsState } from './types'
 
-export const getCountValue = (state: SystemState) => state.count.value
+export const getRestaurantsState = (state: RestaurantsState) => state;

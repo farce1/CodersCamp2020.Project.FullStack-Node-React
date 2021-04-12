@@ -1,14 +1,14 @@
 import { SocialsTypes } from './types';
 import { START } from './actionTypes';
+import {Restaurant} from "../../../../server/src/interfaces/restaurant.interface";
 
-const initialState = {
-  value: 0,
-};
+const initialState: Restaurant[] = [];
 
 export default (state = initialState, action: SocialsTypes) => {
   switch (action.type) {
     case START:
-      return { ...state, value: state.value + 1 };
+      debugger
+      return action.payload;
     default:
       return state;
   }
