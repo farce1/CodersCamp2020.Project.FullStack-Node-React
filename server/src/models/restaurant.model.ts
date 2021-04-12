@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { Restaurant, RestaurantOwner, RestaurantSiteUrl } from '../interfaces/restaurant.interface';
+import { Restaurant, RestaurantOwner, RestaurantSiteUrl, Socials } from '../interfaces/restaurant.interface';
 const restaurantSchema = new mongoose.Schema(
   {
     id: String,
@@ -41,7 +41,16 @@ const restaurantSchema = new mongoose.Schema(
       },
     },
     cuisine: Array,
-    socials: Array,
+    socials: {
+      type: Object,
+      default(val: Socials): Socials {
+        return {
+          facebook: null,
+          instagram: null,
+          socialImage: null,
+        };
+      },
+    },
     comments: Array,
     likeCount: {
       type: Number,
