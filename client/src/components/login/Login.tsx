@@ -27,8 +27,26 @@ const SignupForm = () => {
       password: Yup.string().required('Wymagane'),
     }),
     onSubmit: (values) => {
-      console.log(values)
-
+      // alert(JSON.stringify(values, null, 2))
+      fetch('http://localhost:8080/auth/login', {
+        method: 'post',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 401) {
+            console.log('Logowanie nieudane')
+            console.log(res)
+          } else {
+            console.log('Logowanie udało się')
+            console.log(res)
+            window.location.assign('/')
+          }
+        })
     },
   })
   return (
