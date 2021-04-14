@@ -7,7 +7,7 @@ export interface Restaurant {
     address: string
     owner?: string
     description?: string
-    siteUrl?: string
+    siteUrl?: SiteDetails
     opened?: boolean
     verified?: boolean
     cuisine?: string[]
@@ -23,6 +23,10 @@ export interface Socials {
     socialImage: string | null
 }
 
-export type RestaurantSiteUrl = string | null;
+export interface SiteDetails {
+    page: string | null,
+    photo: string | null,
+    logo: string | null
+}
 
 export type RestaurantOwner = User | null

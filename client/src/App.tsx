@@ -10,6 +10,7 @@ import {About} from "./pages/About";
 import {START} from "./features/restaurants/actionTypes";
 import {API} from "./constants";
 import {getRestaurantsState} from "./selectors";
+import Slider from "./components/slider";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const App: React.FC = () => {
   return (
     <BrowserRouter>
       <Presentation />
+      <Slider/>
       <NavBar />
       <div className="container">
         <Switch>

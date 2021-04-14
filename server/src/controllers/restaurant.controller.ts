@@ -105,7 +105,6 @@ class RestaurantController implements Controller {
   private updateRestaurant = async (request: Request, response: Response, next: NextFunction) => {
     const id = request.params.id;
     const dataToUpdate = request.body;
-
     try {
       if (dataToUpdate.address) {
         const updatedRestaurant = await this.restaurant.findByIdAndUpdate(

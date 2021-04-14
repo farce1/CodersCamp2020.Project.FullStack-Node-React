@@ -32,7 +32,6 @@ async function restaurantUpdateMiddleware(request: RequestWithUser, response: Re
   const doesDislikeFieldExist = Object.keys(request.body).some(key => key === 'dislikeCount');
   const isPermission = () => userRole === 1 || userRole === 0;
   const isConfirmed = isPermission();
-
   try {
     selectedRestaurant = await restaurant.findById(restaurantId);
     const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
