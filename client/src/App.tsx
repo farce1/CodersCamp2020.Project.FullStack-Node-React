@@ -1,13 +1,15 @@
-import React, { useEffect } from 'react';
-import axios from 'axios';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { NavBar } from './components/NavBar';
-import { About } from './pages/About';
-import { Home } from './pages/Home';
-import { getRestaurantsState } from './selectors';
-import { API } from './constants';
-import { START } from './features/restaurants/actionTypes';
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
+
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Presentation } from './components/presentation/Presentation'
+import {NavBar} from "./components/NavBar";
+import {Home} from "./pages/Home";
+import {About} from "./pages/About";
+import {START} from "./features/restaurants/actionTypes";
+import {API} from "./constants";
+import {getRestaurantsState} from "./selectors";
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
+      <Presentation />
       <NavBar />
       <div className="container">
         <Switch>
@@ -33,7 +36,7 @@ const App: React.FC = () => {
         </Switch>
       </div>
     </BrowserRouter>
-  );
-};
+  )
+}
 
-export default App;
+export default App
