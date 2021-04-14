@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import person from '../../images/person.png'
@@ -7,7 +7,7 @@ import registerPerson from '../../images/register.png'
 import {
   Wrapper,
   Center,
-  Grid,
+  Flex,
   Button,
   Form,
   Input,
@@ -15,24 +15,60 @@ import {
   Div,
   Checkbox,
   CheckboxWrapper,
+  Paragraph,
+  Sukcces,
 } from '../styled/styled'
 
 const RegisterForm = () => {
+  const [errorMsg, setErrorMsg] = useState('')
+  const [sendingMail, setSendingMail] = useState('')
+  const mailMsg =
+    'W celu dokończenia rejestracji należy zalogować się na swoją skrzynkę pocztową i w otrzymanej z systemu wiadomości kliknąć w link aktywacyjny. W celu przejścia do panelu logowania należy kliknąć opcję Zaloguj się.'
+  async function sending(values: {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    confirmPassword: string
+    acceptTerms: boolean
+  }) {
+    await fetch('http://localhost:8080/auth/register', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 400) {
+          setErrorMsg(res.message)
+        } else {
+          setSendingMail(mailMsg)
+        }
+      })
+  }
   const formik = useFormik({
     initialValues: {
-      login: '',
+      firstName: '',
+      lastName: '',
       email: '',
       password: '',
       confirmPassword: '',
       acceptTerms: false,
-      checked: [],
     },
 
     validationSchema: Yup.object({
-      login: Yup.string()
-        .max(15, 'Może mieć maximum 15 znaków')
-        .min(3, 'Musi mieć minimum 3 znaki')
-        .required('Wymagane'),
+      firstName: Yup.string()
+        .min(3, 'Imię musi mieć minimum 3 litery')
+        .max(20, 'Imię musi mieć mniej niż 20 liter')
+        .required('Imię jest wymagane')
+        .matches(/^[a-zA-Z0-9]+$/, 'Imię nie może zawierać specjalnych znaków'),
+      lastName: Yup.string()
+        .min(2, 'Naziwsko mieć minimum 2 litery')
+        .max(20, 'Nazwisko musi mieć mniej niż 20 liter')
+        .required('Nazwisko jest wymagane'),
       email: Yup.string().email('Błędny adres email').required('Wymagane'),
       password: Yup.string()
         .min(6, 'Hasło musi mieć minimum 6 znaków')
@@ -45,26 +81,43 @@ const RegisterForm = () => {
         .oneOf([true], 'Zaakceptowanie regulaminu jest wymagane'),
     }),
     onSubmit: (values) => {
-      // dodać przekierowanie
-      console.log(values)
+      sending(values)
+      formik.resetForm()
     },
   })
 
   return (
     <Form onSubmit={formik.handleSubmit}>
+      {errorMsg ? <Paragraph>{errorMsg}</Paragraph> : null}
+      {sendingMail ? <Sukcces>{sendingMail}</Sukcces> : null}
       <Input>
-        <label htmlFor="login" />
+        <label htmlFor="firstName" />
         <input
-          id="login"
-          name="login"
+          id="firstName"
+          name="firstName"
           type="text"
-          placeholder="Login"
+          placeholder="Imię"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={formik.values.login}
+          value={formik.values.firstName}
         />
-        {formik.touched.login && formik.errors.login ? (
-          <div>{formik.errors.login}</div>
+        {formik.touched.firstName && formik.errors.firstName ? (
+          <div>{formik.errors.firstName}</div>
+        ) : null}
+      </Input>
+      <Input>
+        <label htmlFor="lastName" />
+        <input
+          id="lastName"
+          name="lastName"
+          type="text"
+          placeholder="Nazwisko"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.lastName}
+        />
+        {formik.touched.lastName && formik.errors.lastName ? (
+          <div>{formik.errors.lastName}</div>
         ) : null}
       </Input>
       <Input>
@@ -118,7 +171,6 @@ const RegisterForm = () => {
           id="acceptTerms"
           name="acceptTerms"
           type="checkbox"
-          // value={formik.values.acceptTerms}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
@@ -138,7 +190,7 @@ const Register = () => (
         <img src={registerPerson} alt="" width="60" height="60" />
       </Center>
       <RegisterForm />
-      <Grid>
+      <Flex>
         <p>Masz już konto?</p>
         <Center>
           <div>
@@ -150,7 +202,7 @@ const Register = () => (
           </div>
           <Anchor href="/login">Zaloguj się</Anchor>
         </Center>
-      </Grid>
+      </Flex>
     </Wrapper>
   </Div>
 )

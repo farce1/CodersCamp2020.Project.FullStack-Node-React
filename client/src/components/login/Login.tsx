@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import person from '../../images/person.png'
@@ -7,50 +7,58 @@ import personAdd from '../../images/person_add.png'
 import {
   Wrapper,
   Center,
-  Grid,
+  Flex,
   Button,
   Form,
   Input,
   Anchor,
+  Paragraph,
   Div,
 } from '../styled/styled'
 
 const SignupForm = () => {
+  const [errorMsg, setErrorMsg] = useState('')
+  async function sending(values: {
+    email: string
+    password: string
+    errorSubmit: boolean
+  }) {
+    await fetch('http://localhost:8080/auth/login', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json, text/plain, */*',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(values),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 401) {
+          setErrorMsg('Błędny login lub hasło')
+        } else {
+          window.location.assign('/')
+        }
+      })
+  }
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
+      errorSubmit: false,
     },
 
     validationSchema: Yup.object({
       email: Yup.string().email('Błędny adres email').required('Wymagane'),
       password: Yup.string().required('Wymagane'),
+      errorSubmit: Yup.string().required('Błędny login lub hasło'),
     }),
     onSubmit: (values) => {
-      // alert(JSON.stringify(values, null, 2))
-      fetch('http://localhost:8080/auth/login', {
-        method: 'post',
-        headers: {
-          Accept: 'application/json, text/plain, */*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.status === 401) {
-            console.log('Logowanie nieudane')
-            console.log(res)
-          } else {
-            console.log('Logowanie udało się')
-            console.log(res)
-            window.location.assign('/')
-          }
-        })
+      sending(values)
     },
   })
   return (
     <Form onSubmit={formik.handleSubmit}>
+      {errorMsg ? <Paragraph>{errorMsg}</Paragraph> : null}
       <Input>
         <label htmlFor="email" />
         <input
@@ -90,10 +98,10 @@ const Login = () => (
   <Div>
     <Wrapper>
       <Center>
-        <img src={person} alt="" width="80" height="80" />
+        <img src={person} alt="" width="80" height="80" id="login" />
       </Center>
       <SignupForm />
-      <Grid>
+      <Flex>
         <p>Nie masz konta?</p>
         <Center>
           <div>
@@ -105,7 +113,7 @@ const Login = () => (
           </div>
           <Anchor href="/register">Zarejestruj się</Anchor>
         </Center>
-      </Grid>
+      </Flex>
     </Wrapper>
   </Div>
 )

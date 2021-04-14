@@ -5,7 +5,7 @@ import styled from 'styled-components'
 export const Input = styled.section`
   padding-left: 1em;
   padding-right: 1em;
-  background: FFFFFF;
+  background: #FFFFFF;
   width: 50%;
   box-sizing: border-box;
   box-shadow: 0 0 5px 5px #d7d7d7;
@@ -17,10 +17,10 @@ export const Input = styled.section`
   }
 `
 
-export const Grid = styled.section`
+export const Flex = styled.section`
   padding-left: 1em;
   padding-right: 1em;
-  background: FFFFFF;
+  background: #FFFFFF;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -82,8 +82,7 @@ export const Wrapper = styled.section`
   justify-content: center;
   justify-items: stretch;
   justify-self: center;
-  background: FFFFFF;
-  font-size: 1.5em;
+  background: #FFFFFF;
   text-align: center;
   color: #555555;
   box-shadow: 0 0 5px 5px #d7d7d7;
@@ -125,4 +124,47 @@ export const Checkbox = styled.input`
   @media (max-width: 900px) {
     margin-right: 2em;
   }
+`
+export const WrapperFatal = styled.section`
+  background: #FFFFFF;
+  font-size: 1.5em;
+  text-align: center;
+  color: #555555;
+  box-shadow: 0 0 5px 5px #d7d7d7;
+  box-sizing: border-box;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  padding: 2em;
+  justify-items: center;
+  display: flex;
+  flex-direction: column;
+`
+export const Paragraph = styled.p`
+  font-size: 1em;
+  text-align: center;
+  box-sizing: border-box;
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+  color: red;
+`
+
+export const Columns = styled.section`
+  padding-left: 1em;
+  padding-right: 1em;
+  background: #FFFFFF;
+  display: grid;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+`
+
+export const Sukcces = styled.p`
+  padding: 0.2em;
+  background: #FFFFFF;
+  display: grid;
+  justify-content: center;
+  width: 80%;
+  box-sizing: border-box;
+  color: #32CD32;
+  box-shadow: 0 0 5px 5px #32CD32;
 `
