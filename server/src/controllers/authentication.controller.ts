@@ -56,7 +56,7 @@ class AuthenticationController implements Controller {
       if (isPasswordMatching) {
         const tokenData = this.createToken(user);
         response.setHeader('Set-Cookie', [this.createCookie(tokenData)]);
-        response.send(user);
+        response.send(tokenData);
       } else {
         next(new WrongCredentialsException());
       }
@@ -112,8 +112,8 @@ class AuthenticationController implements Controller {
       } else {
         next(new UserIsAlreadyOwnerOfSelectedRestaurant(userId));
       }
-    } catch (e){
-      console.log("cath", e)
+    } catch (e) {
+      console.log('cath', e);
       next(new WrongCredentialsException());
     }
   };
