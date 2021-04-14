@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react'
+
+import { useCookies } from 'react-cookie'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import person from '../../images/person.png'
@@ -18,6 +20,7 @@ import {
 
 const SignupForm = () => {
   const [errorMsg, setErrorMsg] = useState('')
+  const [cookies, setCookie] = useCookies(['token'])
   async function sending(values: {
     email: string
     password: string
@@ -36,6 +39,8 @@ const SignupForm = () => {
         if (res.status === 401) {
           setErrorMsg('Błędny login lub hasło')
         } else {
+          setCookie('token', res.token, { path: '/' })
+          console.log(cookies)
           window.location.assign('/')
         }
       })
