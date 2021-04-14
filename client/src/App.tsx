@@ -1,10 +1,12 @@
-import React from 'react'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import axios from "axios";
+import {useDispatch, useSelector} from "react-redux";
 
 import { Navbar } from './components/Navbar'
 import { Home } from './pages/Home'
 import Login from './components/login/Login'
 import Register from './components/register/Register'
+import React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 const App: React.FC = () => {
   return (

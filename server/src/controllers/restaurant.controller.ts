@@ -25,7 +25,7 @@ class RestaurantController implements Controller {
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, authMiddleware, this.getRestaurants);
+    this.router.get(`${this.path}`, this.getRestaurants);
     this.router.get(`${this.path}/:id`, authMiddleware, this.getRestaurantById);
     this.router.post(
       `${this.path}`,
