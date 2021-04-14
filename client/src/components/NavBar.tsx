@@ -1,8 +1,8 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 interface NavbarProps {
-  isAuth: boolean
+  isAuth: boolean;
 }
 
 export const Navbar = ({ isAuth }: NavbarProps) => (
@@ -32,4 +32,4 @@ export const Navbar = ({ isAuth }: NavbarProps) => (
       </ul>
     </div>
   </nav>
-)
+);
