@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Navbar } from './components/NavBar';
 import { Home } from './pages/Home';
-import Login from './components/login/Login';
+import { LoginPage } from './pages/Login';
+import { RegisterUser } from './pages/Register';
 import { Logout } from './pages/Logout';
-import Register from './components/register/Register';
 import { Presentation } from './components/presentation/Presentation';
 import { START } from './features/restaurants/actionTypes';
 import { API } from './constants';
 import { getRestaurantsState } from './selectors';
+import { RestaurantRegister } from './pages/RestaurantRegister'
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,11 @@ const App: React.FC = () => {
       <div className="container">
         <Switch>
           <Route path="/" component={Home} exact />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={LoginPage} />
           <Route path="/logout" component={Logout} />
           <Route path="/presentation" component={Presentation} />
-          <Route path="/register" component={Register} />
+          <Route path="/register" component={RegisterUser} />
+          <Route path="/restaurant" component={RestaurantRegister} />
         </Switch>
       </div>
     </BrowserRouter>
