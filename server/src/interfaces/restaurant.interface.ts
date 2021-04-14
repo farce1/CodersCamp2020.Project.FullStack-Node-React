@@ -11,7 +11,7 @@ export interface Restaurant {
     opened?: boolean
     verified?: boolean
     cuisine?: string[]
-    socials?: Socials
+    socials: Socials
     comments?: string[]
     likeCount?: number
     dislikeCount?: number

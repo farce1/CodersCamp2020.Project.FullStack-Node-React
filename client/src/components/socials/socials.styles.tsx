@@ -69,4 +69,5 @@ export const InstaTitle = styled.span`
   color: #313030;
   opacity: 0;
   transition: all 0.5s;
+  text-align: center;
 `;

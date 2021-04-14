@@ -2,7 +2,7 @@ export enum AppConsts {
     APP_TITLE = "#CoOtwarte?"
 }
 
-const BACKEND_URL = 'localhost:8080'; // TEMPORARY - LATER SWITCH TO .ENV
+const BACKEND_URL = 'http://localhost:8080'; // TEMPORARY - LATER SWITCH TO .ENV
 
 const GET_ALL_RESTAURANTS = ():string => `${BACKEND_URL}/restaurants`;
 const GET_RESTAURANT = (restaurantID: number):string => `${BACKEND_URL}/restaurants/${restaurantID}`;

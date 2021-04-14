@@ -7,7 +7,6 @@ const initialState: Restaurant[] = [];
 export default (state = initialState, action: SocialsTypes) => {
   switch (action.type) {
     case START:
-      debugger
       return action.payload;
     default:
       return state;
