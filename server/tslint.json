@@ -2,16 +2,13 @@
   "defaultSeverity": "error",
   "extends": [
     "tslint:recommended"
-//    "tslint-config-airbnb"
+    //    "tslint-config-airbnb"
   ],
   "jsRules": {
     "no-unused-expression": true
   },
   "rules": {
-    "max-line-length": [
-      true,
-      130
-    ],
+    "max-line-length": [true, 130],
     "prefer-template": false,
     "interface-name": [true, "never-prefix"],
     "import-name": false,

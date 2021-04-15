@@ -1,5 +1,6 @@
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
+import * as nodemailer from 'nodemailer';
 import UserWithThatEmailAlreadyExistsException from '../exceptions/UserWithThatEmailAlreadyExistsException';
 import DataStoredInTokenInterface from '../interfaces/dataStoredInToken.interface';
 import TokenData from '../interfaces/tokenData.interface';
@@ -7,7 +8,6 @@ import CreateUserDto from '../dto/user.dto';
 import User from '../interfaces/user.interface';
 import userModel from '../models/user.model';
 import addressModel from '../models/address.model';
-const nodemailer = require('nodemailer');
 
 class AuthenticationService {
   public user = userModel;
@@ -50,13 +50,8 @@ class AuthenticationService {
       </div>`,
     };
 
-    transporter.sendMail(mailOptions, function (error: string, info: { response: unknown }) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    transporter.sendMail(mailOptions, (error: any, info: { response: unknown }) =>
+      error ? console.log('Error', error) : console.log('Email sent: ' + info.response));
 
     const tokenData = this.createToken(user);
     const cookie = this.createCookie(tokenData);

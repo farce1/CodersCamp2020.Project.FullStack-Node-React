@@ -7,12 +7,10 @@ import User from '../interfaces/user.interface';
 import userModel from '../models/user.model';
 import addressModel from '../models/address.model';
 import { response } from 'express';
-const nodemailer = require('nodemailer');
-
+import * as nodemailer from 'nodemailer';
 class ResettingPassword {
   public user = userModel;
   public async resetPassword(userData: { email: string }) {
-
     if (!(await this.user.findOne({ email: userData.email }))) {
       throw new Error('No such email');
     }
@@ -45,13 +43,9 @@ class ResettingPassword {
     </div>`,
     };
 
-    transporter.sendMail(mailOptions, function (error: string, info: { response: string }) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    transporter.sendMail(mailOptions, (error: any, info: { response: unknown }) =>
+      error ? console.log('Error', error) : console.log('Email sent: ' + info.response)
+    );
   }
 }
 

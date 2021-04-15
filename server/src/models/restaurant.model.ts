@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import {Restaurant, RestaurantOwner, SiteDetails, Socials} from '../interfaces/restaurant.interface';
+import { Restaurant, RestaurantOwner, SiteDetails, Socials } from '../interfaces/restaurant.interface';
 const restaurantSchema = new mongoose.Schema(
   {
     id: String,
@@ -22,16 +22,16 @@ const restaurantSchema = new mongoose.Schema(
         return '';
       },
     },
-      siteUrl: {
-          type: Object,
-          default(val: SiteDetails): SiteDetails {
-              return {
-                  page: null,
-                  photo: null,
-                  logo: null,
-              };
-          },
+    siteUrl: {
+      type: Object,
+      default(val: SiteDetails): SiteDetails {
+        return {
+          page: null,
+          photo: null,
+          logo: null,
+        };
       },
+    },
     opened: {
       type: Boolean,
       default(val: boolean): boolean {

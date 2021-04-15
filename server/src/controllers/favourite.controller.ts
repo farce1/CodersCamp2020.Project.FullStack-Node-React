@@ -22,7 +22,12 @@ class FavouriteController implements Controller {
 
   private initializeRoutes() {
     this.router.get(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.getFavourites);
-    this.router.put(`${this.path}/:userId`, authMiddleware, permissionMiddleware, this.addOrRemoveRestaurantToFavourites);
+    this.router.put(
+      `${this.path}/:userId`,
+      authMiddleware,
+      permissionMiddleware,
+      this.addOrRemoveRestaurantToFavourites
+    );
   }
 
   private addOrRemoveRestaurantToFavourites = async (request: Request, response: Response, next: NextFunction) => {
@@ -46,12 +51,12 @@ class FavouriteController implements Controller {
       next(new RestaurantNotFoundException(restaurantId));
     }
 
-    const favourites = user.get('favourites', null, {getters: false});
+    const favourites = user.get('favourites', null, { getters: false });
     const operation: string = request.body.operation;
 
     if (operation === Operation.Add) {
       if (favourites.includes(restaurantId)) {
-      next(new RestaurantAlreadyInFavourites(restaurantId));
+        next(new RestaurantAlreadyInFavourites(restaurantId));
       } else {
         favourites.push(restaurantId);
         await user.save();
@@ -62,13 +67,13 @@ class FavouriteController implements Controller {
       if (!favourites.includes(restaurantId)) {
         next(new RestaurantIsNotonTheList(restaurantId));
       } else {
-        const index = favourites.findIndex((favourite: { _id: string; }) => favourite._id === restaurantId);
+        const index = favourites.findIndex((favourite: { _id: string }) => favourite._id === restaurantId);
         favourites.splice(index, 1);
         await user.save();
         response.send(`The restaurant with id ${restaurantId} has been removed from favourites`);
       }
     }
-  }
+  };
 
   private getFavourites = async (request: Request, response: Response, next: NextFunction) => {
     const userId = request.params.userId;
@@ -76,14 +81,14 @@ class FavouriteController implements Controller {
       next(new UserNotFoundException(userId));
     }
     try {
-    const user = await this.user.findById(userId);
-    const favouriteIds = user.get('favourites', null, {getters: false});
-    const restaurants = await this.restaurant.find({"_id": {"$in": favouriteIds}});
-    response.send(restaurants);
+      const user = await this.user.findById(userId);
+      const favouriteIds = user.get('favourites', null, { getters: false });
+      const restaurants = await this.restaurant.find({ _id: { $in: favouriteIds } });
+      response.send(restaurants);
     } catch (error) {
       next(new UserNotFoundException(userId));
     }
-  }
+  };
 }
 
 export default FavouriteController;

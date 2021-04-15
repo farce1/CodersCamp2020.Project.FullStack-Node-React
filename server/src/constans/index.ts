@@ -1,4 +1,4 @@
 export enum Operation {
-    Add = "ADD",
-    Remove = "REMOVE"
-};
+  Add = 'ADD',
+  Remove = 'REMOVE',
+}

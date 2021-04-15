@@ -15,15 +15,15 @@ describe('The AuthenticationController', () => {
         };
         process.env.JWT_SECRET = 'jwt_secret';
         const authenticationController = new AuthenticationController();
-        authenticationController.authenticationService.user.findOne = jest.fn().mockReturnValue(Promise.resolve(undefined));
+        authenticationController.authenticationService.user.findOne = jest
+          .fn()
+          .mockReturnValue(Promise.resolve(undefined));
         authenticationController.authenticationService.user.create = jest.fn().mockReturnValue({
           ...userData,
           _id: 0,
         });
         (mongoose as any).connect = jest.fn();
-        const app = new App([
-          authenticationController,
-        ]);
+        const app = new App([authenticationController]);
         return request(app.getServer())
           .post(`${authenticationController.path}/register`)
           .send(userData)
