@@ -44,26 +44,24 @@ class AuthenticationController implements Controller {
       resetPasswordToken: request.body.id,
     });
 
-    if (userWithToken){
+    if (userWithToken) {
       const newPassword = request.body.password;
       const hashedPassword = await bcrypt.hash(newPassword, +process.env.SALT);
-      (await userWithToken).updateOne({password:hashedPassword}).then(
-        ()=>{
+      (await userWithToken)
+        .updateOne({ password: hashedPassword })
+        .then(() => {
           response.status(201).json({
-            message: 'Password changed successfully'
-          })
-        }
-      ).catch(
-        (error)=>{
+            message: 'Password changed successfully',
+          });
+        })
+        .catch(error => {
           response.status(400).json({
-            error:error
-          })
-        }
-      )
-    }else{
+            error,
+          });
+        });
+    } else {
       return response.status(404).send({ message: 'User Not found.' });
     }
-
   };
 
   private forgotPassword = async (request: Request, response: Response, next: NextFunction) => {
@@ -71,20 +69,20 @@ class AuthenticationController implements Controller {
     this.resettingPassword.resetPassword(userData);
   };
 
-  private verifyUser =  (request: Request, response: Response, next: NextFunction) => {
-      this.user
+  private verifyUser = (request: Request, response: Response, next: NextFunction) => {
+    this.user
       .findOne({
         confirmationCode: request.params.confirmationCode,
       })
-      .then(user=>{
-        user.status='Active';
+      .then(user => {
+        user.status = 'Active';
         user.save();
       })
-      .catch(error=>{
+      .catch(error => {
         response.status(400).json({
-          error : error
-        })
-      })
+         error,
+        });
+      });
   };
 
   private registration = async (request: Request, response: Response, next: NextFunction) => {
@@ -170,8 +168,8 @@ class AuthenticationController implements Controller {
       } else {
         next(new UserIsAlreadyOwnerOfSelectedRestaurant(userId));
       }
-    } catch (e){
-      console.log("cath", e)
+    } catch (e) {
+      console.log('cath', e);
       next(new WrongCredentialsException());
     }
   };

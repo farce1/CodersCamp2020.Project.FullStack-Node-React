@@ -1,4 +1,4 @@
-import {Address} from "./address.interface";
+import { Address } from './address.interface';
 
 export interface User {
   _id: string;
@@ -6,8 +6,8 @@ export interface User {
   lastName: string;
   email: string;
   password: string;
-  status: String;
-  confirmationCode: String;
+  status: string;
+  confirmationCode: string;
   age?: number;
   address?: string;
   userRole?: number;

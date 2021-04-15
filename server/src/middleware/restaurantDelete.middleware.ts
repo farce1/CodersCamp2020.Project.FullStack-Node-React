@@ -18,11 +18,11 @@ async function restaurantDeleteMiddleware(request: RequestWithUser, response: Re
     const ownerOfSelectedRestaurant = selectedRestaurant.owner !== null && selectedRestaurant.owner;
     const nameRequestedRestaurant = selectedRestaurant.name;
 
-    if ( userRole === 1) {
+    if (userRole === 1) {
       ownerOfSelectedRestaurant.toString() === userId.toString()
         ? next()
         : next(new UserIsNotOwnerOfSelectedRestaurant(userId, nameRequestedRestaurant));
-    } else if ( userRole === 0) {
+    } else if (userRole === 0) {
       next();
     } else {
       next(new UserDoesNotHavePermissionToExecutedRequestedData());
