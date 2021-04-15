@@ -18,7 +18,6 @@
 
 **Mentor**: 
 - [Grzegorz Sztuczyński](https://github.com/farce1)
-- Michał Skorzec
 
 **Uczestnicy**:
 
