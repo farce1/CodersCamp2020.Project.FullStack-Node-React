@@ -30,7 +30,7 @@ export const MainDivStyle = styled.div`
 export const HeadingStyle = styled.h1`
   width: 80%;
   font-size: 50px;
-  font-family: Lato;
+  font-family: Poppins;
   font-weight: 200;
   margin-bottom: 80px;
   padding-left: 50px;

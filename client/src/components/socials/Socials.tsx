@@ -72,7 +72,7 @@ const Socials: React.FC = () => {
     <Fragment>
       <SocialsWrapper>
         <TitleContinuation>
-          <SocialsTitle>{AppConsts.APP_TITLE}</SocialsTitle> na instagramiepa
+          <SocialsTitle>{AppConsts.APP_TITLE}</SocialsTitle> na instagramie
         </TitleContinuation>
         <ImagesWrapper>{generateImages()}</ImagesWrapper>
       </SocialsWrapper>

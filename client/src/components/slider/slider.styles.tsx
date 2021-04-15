@@ -1,28 +1,14 @@
 import styled from 'styled-components';
 
-export const SliderWrapper = styled.section`
-  display: flex;
-  flex-direction: column;
-  padding: 1em;
-  background: pink;
-`;
-
 export const SliderTitle = styled.span`
-margin-left:2rem;
-margin-bottom: 2rem;
+  margin-left: 2rem;
+  font-family: Poppins;
   font-style: normal;
   font-weight: 300;
   font-size: 36px;
   line-height: 64px;
   letter-spacing: 0.08em;
-  color: #3F4255;
-`;
-
-export const RestaurantsWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-content: space-between;
+  color: #3f4255;
 `;
 
 export const PhotoWrapper = styled.div`
@@ -51,7 +37,7 @@ export const PhotoImg = styled.div`
   background-size: cover;
   background-position: center;
   filter: drop-shadow(0px 2px 16px rgba(60, 62, 74, 0.08));
-border-radius: 4px;
+  border-radius: 4px;
   -webkit-transition: all 0.5s;
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;

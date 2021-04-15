@@ -8,6 +8,7 @@ export const SocialsWrapper = styled.section`
 `;
 
 export const SocialsTitle = styled.span`
+  font-family: Poppins;
   font-style: normal;
   font-weight: 300;
   font-size: 36px;
@@ -19,7 +20,7 @@ export const SocialsTitle = styled.span`
 
 export const TitleContinuation = styled(SocialsTitle)`
   color: #9093a6;
-  padding-left: 35px;
+   padding-left: 1rem;
 `;
 
 export const ImagesWrapper = styled.div`
