@@ -16,17 +16,10 @@ export const PhotoWrapper = styled.div`
   overflow: hidden;
   border-radius: 3px;
 
-  // &:hover div {
-  //   -ms-transform: scale(1.2);
-  //   -moz-transform: scale(1.2);
-  //   -webkit-transform: scale(1.2);
-  //   -o-transform: scale(1.2);
-  //   transform: scale(1.2);
-  //   opacity: 0.5;
-  // }
-  // &:hover span {
-  //   opacity: 1;
-  // }
+  &:hover div {
+    opacity: 0.8;
+  }
+
 `;
 
 export const PhotoImg = styled.div`
@@ -38,9 +31,6 @@ export const PhotoImg = styled.div`
   background-position: center;
   filter: drop-shadow(0px 2px 16px rgba(60, 62, 74, 0.08));
   border-radius: 4px;
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
 `;
 
@@ -49,11 +39,8 @@ export const LogoImg = styled.div`
   width: 296px;
   height: 85px;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   filter: drop-shadow(0px 2px 16px rgba(60, 62, 74, 0.08));
-  -webkit-transition: all 0.5s;
-  -moz-transition: all 0.5s;
-  -o-transition: all 0.5s;
   transition: all 0.5s;
 `;

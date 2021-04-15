@@ -20,7 +20,7 @@ export const SocialsTitle = styled.span`
 
 export const TitleContinuation = styled(SocialsTitle)`
   color: #9093a6;
-   padding-left: 1rem;
+  padding-left: 1rem;
 `;
 
 export const ImagesWrapper = styled.div`

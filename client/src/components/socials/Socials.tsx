@@ -29,9 +29,6 @@ const Socials: React.FC = () => {
   const uniqueRestaurantsToDisplay = uniqueNumbers.map(number => {
     return restaurantsWithSocials[number];
   });
-  console.log('uniqueNumbers', uniqueNumbers);
-  console.log('uniqueRestaurantsToDisplay', uniqueRestaurantsToDisplay);
-  console.log('restaurantsWithSocials: ', restaurantsWithSocials);
 
   const generateImages = () => {
     const useExistingRestaurants = () => {
@@ -64,7 +61,6 @@ const Socials: React.FC = () => {
         );
       });
     };
-    console.log(restaurantsWithSocials.length > 3);
     return restaurantsWithSocials.length > 3 ? useExistingRestaurants() : usePlaceholder();
   };
 

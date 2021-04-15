@@ -1,49 +1,64 @@
 import React, { Fragment } from 'react';
 import Carousel from 'react-multi-carousel';
+import { useSelector } from 'react-redux';
 
-// import { useSelector } from 'react-redux';
-// import { getRestaurantsState } from '../../selectors';
-// import { Restaurant } from '../../../../server/src/interfaces/restaurant.interface';
+import { getRestaurantsState } from '../../selectors';
+import { Restaurant } from '../../../../server/src/interfaces/restaurant.interface';
 import { LogoImg, PhotoImg, PhotoWrapper, SliderTitle } from './slider.styles';
 
 const Slider: React.FC = () => {
-  // const restaurantsWithSocials = useSelector(getRestaurantsState).filter(
-  //     (restaurant: Restaurant) => restaurant.socials?.instagram && restaurant.socials?.socialImage
-  // );
-  // const uniqueNumbers: any[] = [];
-  // if (restaurantsWithSocials.length > 0) {
-  //     while (uniqueNumbers.length < 4) {
-  //         const randomNumber = Math.floor(Math.random() * restaurantsWithSocials.length);
-  //         if (!uniqueNumbers.includes(randomNumber)) {
-  //             uniqueNumbers.push(randomNumber);
-  //         }
-  //     }
-  // }
-  // const uniqueRestaurantsToDisplay = uniqueNumbers.map(number => {
-  //     return restaurantsWithSocials[number];
-  // });
-  // console.log('uniqueNumbers', uniqueNumbers);
-  // console.log('uniqueRestaurantsToDisplay', uniqueRestaurantsToDisplay);
-  // console.log('restaurantsWithSocials: ', restaurantsWithSocials);
+  const restaurantsWithSiteData = useSelector(getRestaurantsState).filter(
+    (restaurant: Restaurant) =>
+      restaurant.siteUrl?.page &&
+      restaurant.siteUrl?.page !== null &&
+      restaurant.siteUrl?.photo &&
+      restaurant.siteUrl?.photo !== null &&
+      restaurant.siteUrl?.logo &&
+      restaurant.siteUrl?.logo !== null
+  );
+
+  const uniqueNumbers: any[] = [];
+  const maxlengthOfRestaurantsList = 10;
+  const minlengthOfRestaurantsList = 4;
+  let numberToSelect = minlengthOfRestaurantsList;
+
+  if (restaurantsWithSiteData.length > 0 && restaurantsWithSiteData.length >= minlengthOfRestaurantsList) {
+    if (restaurantsWithSiteData.length === minlengthOfRestaurantsList) {
+      numberToSelect = minlengthOfRestaurantsList;
+    } else if (
+      restaurantsWithSiteData.length > minlengthOfRestaurantsList &&
+      restaurantsWithSiteData.length < maxlengthOfRestaurantsList
+    ) {
+      numberToSelect = restaurantsWithSiteData.length;
+    } else {
+      numberToSelect = maxlengthOfRestaurantsList;
+    }
+
+    while (uniqueNumbers.length < numberToSelect) {
+      const randomNumber = Math.floor(Math.random() * restaurantsWithSiteData.length);
+      if (!uniqueNumbers.includes(randomNumber)) {
+        uniqueNumbers.push(randomNumber);
+      }
+    }
+  }
+
+  const uniqueRestaurantsToDisplay = uniqueNumbers.map(number => {
+    return restaurantsWithSiteData[number];
+  });
 
   const generateImages = () => {
-    // const useExistingRestaurants = () => {
-    //     return uniqueRestaurantsToDisplay.map(restaurant => {
-    //         return (
-    //             <a
-    //                 key={restaurant.socials.instagram}
-    //                 href={restaurant.socials.instagram ?? ''}
-    //                 target="_blank"
-    //                 rel="noopener noreferrer"
-    //             >
-    //                 <SingleImageWrapper>
-    //                     <InstaImg style={{ backgroundImage: `url(${restaurant.socials.socialImage})` }} />
-    //                     <InstaTitle>{restaurant.name}</InstaTitle>
-    //                 </SingleImageWrapper>
-    //             </a>
-    //         );
-    //     });
-    // };
+    const useExistingRestaurants = () => {
+      return uniqueRestaurantsToDisplay.map(restaurant => {
+        return (
+          <a key={restaurant?.email} href={restaurant?.siteUrl?.page ?? ''} target="_blank" rel="noopener noreferrer">
+            <PhotoWrapper>
+              <PhotoImg style={{ backgroundImage: `url(${restaurant?.siteUrl?.photo})` }} />
+              <LogoImg style={{ backgroundImage: `url(${restaurant?.siteUrl?.logo})` }} />
+            </PhotoWrapper>
+          </a>
+        );
+      });
+    };
 
     const usePlaceholder = () => {
       return [0, 1, 2, 3].map(num => {
@@ -57,9 +72,8 @@ const Slider: React.FC = () => {
         );
       });
     };
-    //  console.log(restaurantsWithSocials.length > 3);
-    // return restaurantsWithSocials.length > 3 ? useExistingRestaurants() : usePlaceholder();
-    return usePlaceholder();
+
+    return restaurantsWithSiteData.length >= 4 ? useExistingRestaurants() : usePlaceholder();
   };
   const responsive = {
     desktop: {
