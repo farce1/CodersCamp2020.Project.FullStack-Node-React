@@ -6,26 +6,29 @@ export const Navbar = () => {
   console.log(document.cookie.split('=')[1]);
   return (
     <nav>
-      <div className="nav-wrapper cyan darken-1 px1">
+      <div className="nav-wrapper orange px1">
         <NavLink to="/" className="brand-logo">
           Co jemy?
         </NavLink>
         <ul className="right hide-on-med-and-down">
           <li cy-data="home-nav-link">
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/" />
           </li>
           {isAuth ? (
             <>
               <li>
-                <NavLink to="/favorite">Favorite</NavLink>
+                <NavLink to="/restaurant">Dodaj restaurację</NavLink>
               </li>
               <li>
-                <NavLink to="/logout">Logout</NavLink>
+                <NavLink to="/favorite">Ulubione</NavLink>
+              </li>
+              <li>
+                <NavLink to="/logout">Wyloguj</NavLink>
               </li>
             </>
           ) : (
             <li cy-data="home-nav-link">
-              <NavLink to="/login">Login</NavLink>
+              <NavLink to="/login">Zaloguj</NavLink>
             </li>
           )}
         </ul>
