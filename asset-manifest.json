@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/CodersCamp2020.Project.FullStack-Node-React/static/css/main.bc75f2c6.chunk.css",
+    "main.js": "/CodersCamp2020.Project.FullStack-Node-React/static/js/main.e592ebb2.chunk.js",
+    "main.js.map": "/CodersCamp2020.Project.FullStack-Node-React/static/js/main.e592ebb2.chunk.js.map",
+    "runtime-main.js": "/CodersCamp2020.Project.FullStack-Node-React/static/js/runtime-main.bf11291c.js",
+    "runtime-main.js.map": "/CodersCamp2020.Project.FullStack-Node-React/static/js/runtime-main.bf11291c.js.map",
+    "static/js/2.d040ff27.chunk.js": "/CodersCamp2020.Project.FullStack-Node-React/static/js/2.d040ff27.chunk.js",
+    "static/js/2.d040ff27.chunk.js.map": "/CodersCamp2020.Project.FullStack-Node-React/static/js/2.d040ff27.chunk.js.map",
+    "index.html": "/CodersCamp2020.Project.FullStack-Node-React/index.html",
+    "static/css/main.bc75f2c6.chunk.css.map": "/CodersCamp2020.Project.FullStack-Node-React/static/css/main.bc75f2c6.chunk.css.map",
+    "static/js/2.d040ff27.chunk.js.LICENSE.txt": "/CodersCamp2020.Project.FullStack-Node-React/static/js/2.d040ff27.chunk.js.LICENSE.txt",
+    "static/media/salad.03a4ec38.png": "/CodersCamp2020.Project.FullStack-Node-React/static/media/salad.03a4ec38.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bf11291c.js",
+    "static/js/2.d040ff27.chunk.js",
+    "static/css/main.bc75f2c6.chunk.css",
+    "static/js/main.e592ebb2.chunk.js"
+  ]
+}
