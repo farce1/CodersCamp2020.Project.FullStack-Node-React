@@ -1,6 +1,7 @@
 // @ts-ignore
 import { IsArray, IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
 import CreateAddressDto from './address.dto';
+import {SiteDetails, Socials} from '../interfaces/restaurant.interface';
 
 class CreateRestaurantDto {
   @IsString()
@@ -9,13 +10,19 @@ class CreateRestaurantDto {
   @IsString()
   public email: string;
 
+  @ValidateNested()
+  public address: CreateAddressDto;
+
+  @IsOptional()
+  public owner: string;
+
   @IsOptional()
   @IsString()
   public description: string;
 
   @IsOptional()
   @IsString()
-  public siteUrl: string;
+  public siteUrl: SiteDetails;
 
   @IsOptional()
   @IsBoolean()
@@ -27,15 +34,15 @@ class CreateRestaurantDto {
 
   @IsOptional()
   @IsArray()
-  public cuisine: [];
+  public cuisine: string[];
 
   @IsOptional()
   @IsArray()
-  public socials: [];
+  public socials: Socials;
 
   @IsOptional()
   @IsArray()
-  public comments: [];
+  public comments: string[];
 
   @IsOptional()
   @IsNumber()
@@ -44,9 +51,6 @@ class CreateRestaurantDto {
   @IsOptional()
   @IsNumber()
   public dislikeCount: number;
-
-  @ValidateNested()
-  public address: CreateAddressDto;
 }
 
 export default CreateRestaurantDto;

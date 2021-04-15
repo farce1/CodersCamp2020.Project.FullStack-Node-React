@@ -1,4 +1,4 @@
-import * as mongoose from 'controllers/restaurants/controllers/user/controllers/post/mongoose';
+import * as mongoose from 'mongoose';
 import * as request from 'supertest';
 import App from '../app';
 import CreateUserDto from '../dto/user.dto';

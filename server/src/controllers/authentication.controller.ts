@@ -12,6 +12,10 @@ import userModel from '../models/user.model';
 import AuthenticationService from '../services/authentication.service';
 import LogInDto from '../dto/logIn.dto';
 import ResettingPassword from '../services/resettingPassword.service';
+import restaurantModel from '../models/restaurant.model';
+import authMiddleware from '../middleware/auth.middleware';
+import UpgradeRole from '../dto/roleUpgrade.dto';
+import UserIsAlreadyOwnerOfSelectedRestaurant from '../exceptions/UserIsAlreadyOwnerOfSelectedRestaurant';
 
 class AuthenticationController implements Controller {
   public path = '/auth';
@@ -19,6 +23,7 @@ class AuthenticationController implements Controller {
   public authenticationService = new AuthenticationService();
   private user = userModel;
   private resettingPassword = new ResettingPassword();
+  private restaurant = restaurantModel;
 
   constructor() {
     this.initializeRoutes();
@@ -31,6 +36,7 @@ class AuthenticationController implements Controller {
     this.router.get(`${this.path}/confirm/:confirmationCode`, this.verifyUser);
     this.router.post(`${this.path}/forgot`, this.forgotPassword);
     this.router.patch(`${this.path}/forgetConfirm`, this.newPassword);
+    this.router.patch(`${this.path}/roleRequest/:id`, authMiddleware, this.upgradeRole);
   }
 
   private newPassword = async (request: Request, response: Response, next: NextFunction) => {
@@ -122,8 +128,56 @@ class AuthenticationController implements Controller {
     response.send(200);
   };
 
+  addRestaurantToOwner(restaurantId: string, ownerId: string) {
+    return this.user.findByIdAndUpdate(
+      ownerId,
+      { $push: { ownedRestaurants: restaurantId }, userRole: 1 },
+      { new: true }
+    );
+  }
+
+  private upgradeRole = async (request: Request, response: Response, next: NextFunction) => {
+    const userId = request.params.id;
+    const roleUpgrade = request.body.userRole;
+    const restaurantId = request.body.restaurantId;
+
+    try {
+      const rest = await this.restaurant.findById(restaurantId);
+      if ('' + rest.owner !== userId) {
+        const userData = await this.addRestaurantToOwner(restaurantId, userId);
+
+        if (+roleUpgrade === 1) {
+          const restaurant = await this.restaurant
+            .findByIdAndUpdate(
+              restaurantId,
+              {
+                owner: userId,
+              },
+              { new: true }
+            )
+            .populate('address', '-__v')
+            .populate('owner', '-__v')
+            .populate({ path: 'owner', populate: { path: 'ownedRestaurants' } });
+
+          return response.send({
+            restaurant,
+          });
+        }
+
+        return response.send({
+          user: userData,
+        });
+      } else {
+        next(new UserIsAlreadyOwnerOfSelectedRestaurant(userId));
+      }
+    } catch (e){
+      console.log("cath", e)
+      next(new WrongCredentialsException());
+    }
+  };
+
   private createCookie(tokenData: TokenData) {
-    return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn}`;
+    return `Authorization=${tokenData.token}; Path=/; HttpOnly; Max-Age=${tokenData.expiresIn}`;
   }
 
   private createToken(user: User): TokenData {

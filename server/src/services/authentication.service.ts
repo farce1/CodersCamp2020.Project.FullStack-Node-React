@@ -22,10 +22,8 @@ class AuthenticationService {
     });
 
     const hashedPassword = await bcrypt.hash(userData.password, +process.env.SALT);
-
     const secret = process.env.JWT_SECRET;
     const confirmationToken = jwt.sign({ email: userData.email }, secret);
-
     const user = await this.user.create({
       ...userData,
       address,

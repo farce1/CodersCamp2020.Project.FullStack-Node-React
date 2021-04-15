@@ -1,13 +1,23 @@
-interface User {
+import {Address} from "./address.interface";
+
+export interface User {
   _id: string;
   firstName: string;
   lastName: string;
-  fullName: string;
   email: string;
   password: string;
-  address?: Address;
   status: String;
   confirmationCode: String;
+  age?: number;
+  address?: string;
+  userRole?: number;
+  avatarUrl?: string;
+  blocked?: boolean;
+  ownedRestaurants?: string[];
+  favourites?: string[];
+  comments?: string[];
 }
+
+export type UserAvatarUrl = string | null;
 
 export default User;
