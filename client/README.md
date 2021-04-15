@@ -95,7 +95,6 @@ zamknietej restauracji.
 6. Użytkownik może usunąć daną restauracje z ulubionych.
 7. Zalogowani użytkownicy mogą przeglądać restauracje.
 8. Użytkownik może stworzyć restauracje podając nazwę, adres e-mail, adres.
-9. Użytkownik może przeglądać dodane resturacje.
 
 
 ## Dostępne skrypty
