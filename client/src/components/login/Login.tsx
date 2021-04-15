@@ -1,31 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { useCookies } from 'react-cookie'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import person from '../../images/person.png'
-import personAdd from '../../images/person_add.png'
-import {
-  Wrapper,
-  Center,
-  Flex,
-  Button,
-  Form,
-  Input,
-  Anchor,
-  Paragraph,
-  Div,
-} from '../styled/styled'
+import { useCookies } from 'react-cookie';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import person from '../../images/person.png';
+import personAdd from '../../images/person_add.png';
+import { Wrapper, Center, Flex, Button, Form, Input, Anchor, Paragraph, Div } from '../styled/styled';
 
 const SignupForm = () => {
-  const [errorMsg, setErrorMsg] = useState('')
-  const [cookies, setCookie] = useCookies(['token'])
-  async function sending(values: {
-    email: string
-    password: string
-    errorSubmit: boolean
-  }) {
+  const [errorMsg, setErrorMsg] = useState('');
+  const [cookies, setCookie] = useCookies(['token']);
+  async function sending(values: { email: string; password: string; errorSubmit: boolean }) {
     await fetch('http://localhost:8080/auth/login', {
       method: 'post',
       headers: {
@@ -34,16 +20,16 @@ const SignupForm = () => {
       },
       body: JSON.stringify(values),
     })
-      .then((res) => res.json())
-      .then((res) => {
+      .then(res => res.json())
+      .then(res => {
         if (res.status === 401) {
-          setErrorMsg('Błędny login lub hasło')
+          setErrorMsg('Błędny login lub hasło');
         } else {
-          setCookie('token', res.token, { path: '/' })
-          console.log(cookies)
-          window.location.assign('/')
+          setCookie('token', res.token, { path: '/' });
+          console.log(cookies);
+          window.location.assign('/');
         }
-      })
+      });
   }
   const formik = useFormik({
     initialValues: {
@@ -57,10 +43,10 @@ const SignupForm = () => {
       password: Yup.string().required('Wymagane'),
       errorSubmit: Yup.string().required('Błędny login lub hasło'),
     }),
-    onSubmit: (values) => {
-      sending(values)
+    onSubmit: values => {
+      sending(values);
     },
-  })
+  });
   return (
     <Form onSubmit={formik.handleSubmit}>
       {errorMsg ? <Paragraph>{errorMsg}</Paragraph> : null}
@@ -75,9 +61,7 @@ const SignupForm = () => {
           onBlur={formik.handleBlur}
           value={formik.values.email}
         />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
+        {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
       </Input>
       <Input>
         <label htmlFor="password" />
@@ -90,14 +74,12 @@ const SignupForm = () => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
         />
-        {formik.touched.password && formik.errors.password ? (
-          <div>{formik.errors.password}</div>
-        ) : null}
+        {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
       </Input>
       <Button type="submit">Zaloguj się</Button>
     </Form>
-  )
-}
+  );
+};
 
 const Login = () => (
   <Div>
@@ -121,6 +103,6 @@ const Login = () => (
       </Flex>
     </Wrapper>
   </Div>
-)
+);
 
-export default Login
+export default Login;
