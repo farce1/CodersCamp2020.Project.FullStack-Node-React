@@ -6,6 +6,8 @@ export interface User {
   lastName: string;
   email: string;
   password: string;
+  status: String;
+  confirmationCode: String;
   age?: number;
   address?: string;
   userRole?: number;
